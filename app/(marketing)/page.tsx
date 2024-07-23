@@ -9,6 +9,8 @@ import { FAQ } from '@/components/faq';
 import { freePlan, basicPlan, proPlan } from "@/config/subscriptions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { CodeBlock } from "@/components/ui/codeblock";
+import { Code } from "lucide-react";
 
 export default function IndexPage() {
 
@@ -202,7 +204,9 @@ export default function IndexPage() {
             Our chatbot requires very low amount of code to implement in it in your website.
             You can follow our documentation to see how to implement our chatbot in your website.
           </p>
-          <Image alt="code example" className="mt-6 shadow-xl border rounded-lg" width={550} height={550} src="/code_example.png" />
+          <div className="mx-auto w-full flex items-center flex-col justify-center gap-4 text-center">
+          <CodeBlock language={"javascript"} value={"div classname mx-auto flex items-center justify-center gap-4 text-center mx-auto flex items-center justify-center gap-4 text-center mx-auto flex items-center justify-center gap-4 text-center mx-auto flex items-center justify-center gap-4 text-center"} />
+          </div>
         </div>
       </section>
       {/*<section data-aos="fade-up" id="open-source" className="container py-12 md:py-24 lg:py-32">
