@@ -43,6 +43,8 @@ import {
   Paperclip,
   Lock,
   Mail,
+  PanelRightClose,
+  PanelLeftClose,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -50,6 +52,8 @@ export type Icon = LucideIcon;
 export const Icons = {
   lock: Lock,
   document: File,
+  rightpanelclose: PanelRightClose,
+  leftpanelclose: PanelLeftClose,
   mail: Mail,
   paperclip: Paperclip,
   reload: RefreshCcw,
