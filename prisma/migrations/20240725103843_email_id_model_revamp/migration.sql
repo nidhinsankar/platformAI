@@ -6,7 +6,7 @@ CREATE TYPE "Role" AS ENUM ('user', 'assistant');
 
 -- CreateTable
 CREATE TABLE "OpenAIConfig" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "userId" TEXT NOT NULL,
     "globalAPIKey" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -26,7 +26,7 @@ CREATE TABLE "ChatbotFiles" (
 
 -- CreateTable
 CREATE TABLE "ChatbotMessagesExport" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "blobUrl" TEXT NOT NULL,
     "blobDownloadUrl" TEXT NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE "ChatbotErrors" (
 
 -- CreateTable
 CREATE TABLE "chatbots" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "name" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "openaiId" TEXT NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE "chatbots" (
 
 -- CreateTable
 CREATE TABLE "files" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "userId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "openAIFileId" TEXT NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE "files" (
 
 -- CreateTable
 CREATE TABLE "models" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "models_pkey" PRIMARY KEY ("id")
@@ -117,7 +117,7 @@ CREATE TABLE "models" (
 
 -- CreateTable
 CREATE TABLE "ClientInquiries" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "threadId" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE "ClientInquiries" (
 
 -- CreateTable
 CREATE TABLE "messages" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "message" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "response" TEXT NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE "messages" (
 
 -- CreateTable
 CREATE TABLE "crawlers" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "name" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" TEXT NOT NULL,
@@ -159,7 +159,7 @@ CREATE TABLE "crawlers" (
 
 -- CreateTable
 CREATE TABLE "Account" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "userId" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "provider" TEXT NOT NULL,
@@ -177,7 +177,7 @@ CREATE TABLE "Account" (
 
 -- CreateTable
 CREATE TABLE "Session" (
-    "id" TEXT NOT NULL,
+    "id" VARCHAR(30) NOT NULL,
     "sessionToken" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
@@ -206,22 +206,22 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "CustomerResponses" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "question" TEXT NOT NULL,
     "answered" TEXT,
-    "customerId" UUID NOT NULL,
+    "customerId" VARCHAR(30) NOT NULL,
 
     CONSTRAINT "CustomerResponses_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "ChatMessage" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "message" TEXT NOT NULL,
     "role" "Role",
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "chatRoomId" UUID,
+    "chatRoomId" VARCHAR(30),
     "seen" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "ChatMessage_pkey" PRIMARY KEY ("id")
@@ -229,12 +229,12 @@ CREATE TABLE "ChatMessage" (
 
 -- CreateTable
 CREATE TABLE "Bookings" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "slot" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "customerId" UUID,
-    "domainId" UUID,
+    "customerId" VARCHAR(30),
+    "domainId" VARCHAR(30),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Bookings_pkey" PRIMARY KEY ("id")
@@ -242,64 +242,64 @@ CREATE TABLE "Bookings" (
 
 -- CreateTable
 CREATE TABLE "ChatRoom" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "live" BOOLEAN NOT NULL DEFAULT false,
     "mailed" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "customerId" UUID,
+    "customerId" VARCHAR(30),
 
     CONSTRAINT "ChatRoom_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "HelpDesk" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "question" TEXT NOT NULL,
     "answer" TEXT NOT NULL,
-    "domainId" UUID,
+    "domainId" VARCHAR(30),
 
     CONSTRAINT "HelpDesk_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "FilterQuestions" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "question" TEXT NOT NULL,
     "answered" TEXT,
-    "domainId" UUID,
+    "domainId" VARCHAR(30),
 
     CONSTRAINT "FilterQuestions_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Customer" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "email" TEXT,
-    "domainId" UUID,
+    "domainId" VARCHAR(30),
 
     CONSTRAINT "Customer_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Product" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "name" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
     "image" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "domainId" UUID,
+    "domainId" VARCHAR(30),
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Domain" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "name" TEXT NOT NULL,
     "icon" TEXT NOT NULL,
-    "userId" UUID,
-    "campaignId" UUID,
+    "userId" VARCHAR(30),
+    "campaignId" VARCHAR(30),
     "chatbotId" TEXT,
 
     CONSTRAINT "Domain_pkey" PRIMARY KEY ("id")
@@ -307,21 +307,21 @@ CREATE TABLE "Domain" (
 
 -- CreateTable
 CREATE TABLE "Billings" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "plan" "Plans" NOT NULL DEFAULT 'STANDARD',
     "credits" INTEGER NOT NULL DEFAULT 10,
-    "userId" UUID,
+    "userId" VARCHAR(30),
 
     CONSTRAINT "Billings_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Campaign" (
-    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "id" VARCHAR(30) NOT NULL,
     "name" TEXT NOT NULL,
     "customers" TEXT[],
     "template" TEXT,
-    "userId" UUID,
+    "userId" VARCHAR(30),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Campaign_pkey" PRIMARY KEY ("id")

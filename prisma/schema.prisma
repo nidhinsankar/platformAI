@@ -9,7 +9,7 @@ generator client {
 }
 
 model OpenAIConfig {
-  id           String   @id @default(cuid())
+  id           String   @id @default(cuid()) @db.VarChar(30)
   userId       String   @unique
   globalAPIKey String
   createdAt    DateTime @default(now()) @map(name: "created_at")
@@ -29,7 +29,7 @@ model ChatbotFiles {
 }
 
 model ChatbotMessagesExport {
-  id              String   @id @default(cuid())
+  id              String   @id @default(cuid()) @db.VarChar(30)
   createdAt       DateTime @default(now()) @map(name: "created_at")
   blobUrl         String
   blobDownloadUrl String
@@ -49,7 +49,7 @@ model ChatbotErrors {
 }
 
 model Chatbot {
-  id                  String        @id @default(cuid())
+  id                  String        @id @default(cuid()) @db.VarChar(30)
   name                String
   userId              String
   openaiId            String
@@ -111,7 +111,7 @@ model Chatbot {
 }
 
 model File {
-  id           String   @id @default(cuid())
+  id           String   @id @default(cuid()) @db.VarChar(30)
   userId       String
   name         String
   openAIFileId String   @unique
@@ -128,7 +128,7 @@ model File {
 }
 
 model ChatbotModel {
-  id      String    @id @default(cuid())
+  id      String    @id @default(cuid()) @db.VarChar(30)
   name    String
   Chatbot Chatbot[]
 
@@ -136,7 +136,7 @@ model ChatbotModel {
 }
 
 model ClientInquiries {
-  id        String    @id @default(cuid())
+  id        String    @id @default(cuid()) @db.VarChar(30)
   createdAt DateTime  @default(now())
   threadId  String
   email     String
@@ -147,7 +147,7 @@ model ClientInquiries {
 }
 
 model Message {
-  id        String   @id @default(cuid())
+  id        String   @id @default(cuid()) @db.VarChar(30)
   message   String
   createdAt DateTime @default(now()) @map(name: "created_at")
   response  String
@@ -166,7 +166,7 @@ model Message {
 }
 
 model Crawler {
-  id              String   @id @default(cuid())
+  id              String   @id @default(cuid()) @db.VarChar(30)
   name            String
   createdAt       DateTime @default(now()) @map(name: "created_at")
   userId          String
@@ -182,7 +182,7 @@ model Crawler {
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id @default(cuid()) @db.VarChar(30)
   userId            String
   type              String
   provider          String
@@ -201,7 +201,7 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(cuid()) @db.VarChar(30)
   sessionToken String   @unique
   userId       String
   expires      DateTime
@@ -238,67 +238,67 @@ model User {
 }
 
 model CustomerResponses {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id         String   @id @default(cuid()) @db.VarChar(30)
   question   String
   answered   String?
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  customerId String   @db.Uuid
+  customerId String   @db.VarChar(30)
 }
 
 model ChatMessage {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id         String    @id @default(cuid()) @db.VarChar(30)
   message    String
   role       Role?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   ChatRoom   ChatRoom? @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
-  chatRoomId String?   @db.Uuid
+  chatRoomId String?   @db.VarChar(30)
   seen       Boolean   @default(false)
 }
 
 model Bookings {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id         String    @id @default(cuid()) @db.VarChar(30)
   date       DateTime
   slot       String
   email      String
   Customer   Customer? @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  customerId String?   @db.Uuid
-  domainId   String?   @db.Uuid
+  customerId String?   @db.VarChar(30)
+  domainId   String?   @db.VarChar(30)
   createdAt  DateTime  @default(now())
 }
 
 model ChatRoom {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id         String    @id @default(cuid()) @db.VarChar(30)
   live       Boolean   @default(false)
   mailed     Boolean   @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   Customer   Customer? @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  customerId String?   @db.Uuid
+  customerId String?   @db.VarChar(30)
 
   message ChatMessage[]
 }
 
 model HelpDesk {
-  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id       String @id @default(cuid()) @db.VarChar(30)
   question String
   answer   String
 
   Domain   Domain? @relation(fields: [domainId], references: [id], onDelete: Cascade)
-  domainId String? @db.Uuid
+  domainId String? @db.VarChar(30)
 }
 
 model FilterQuestions {
-  id       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id       String  @id @default(cuid()) @db.VarChar(30)
   question String
   answered String?
 
   Domain   Domain? @relation(fields: [domainId], references: [id], onDelete: Cascade)
-  domainId String? @db.Uuid
+  domainId String? @db.VarChar(30)
 }
 
 model Customer {
-  id    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id    String  @id @default(cuid()) @db.VarChar(30)
   email String?
 
   questions CustomerResponses[]
@@ -308,21 +308,21 @@ model Customer {
   booking Bookings[]
 
   Domain   Domain? @relation(fields: [domainId], references: [id], onDelete: Cascade)
-  domainId String? @db.Uuid
+  domainId String? @db.VarChar(30)
 }
 
 model Product {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String   @id @default(cuid()) @db.VarChar(30)
   name      String
   price     Int
   image     String
   createdAt DateTime @default(now())
   Domain    Domain?  @relation(fields: [domainId], references: [id], onDelete: Cascade)
-  domainId  String?  @db.Uuid
+  domainId  String?  @db.VarChar(30)
 }
 
 model Domain {
-  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id   String @id @default(cuid()) @db.VarChar(30)
   name String
   icon String
 
@@ -333,28 +333,28 @@ model Domain {
 
   customer   Customer[]
   User       User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String?    @db.Uuid
+  userId     String?    @db.VarChar(30)
   Campaign   Campaign?  @relation(fields: [campaignId], references: [id])
-  campaignId String?    @db.Uuid
+  campaignId String?    @db.VarChar(30)
   chatbotId  String?
 }
 
 model Billings {
-  id      String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id      String  @id @default(cuid()) @db.VarChar(30)
   plan    Plans   @default(STANDARD)
   credits Int     @default(10)
   User    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  String? @unique @db.Uuid
+  userId  String? @unique @db.VarChar(30)
 }
 
 model Campaign {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String   @id @default(cuid()) @db.VarChar(30)
   name      String
   customers String[]
   domain    Domain[]
   template  String?
   User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String?  @db.Uuid
+  userId    String?  @db.VarChar(30)
   createdAt DateTime @default(now())
 }
 
