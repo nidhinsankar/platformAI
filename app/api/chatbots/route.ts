@@ -67,7 +67,7 @@ export async function POST(req: Request) {
         id: body.modelId
       }
     })
-
+    console.log(model)
     if (!model) {
       return new Response("Invalid Model", { status: 400 })
     }
