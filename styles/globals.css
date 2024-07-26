@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
   width: 20px;
@@ -73,4 +71,7 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
+.card-border-radius {
+  box-shadow: 0 5px 40px rgba(0, 0, 0, 0.2);
 }

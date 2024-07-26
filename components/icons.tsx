@@ -45,6 +45,7 @@ import {
   Mail,
   PanelRightClose,
   PanelLeftClose,
+  CheckCircle,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -52,6 +53,7 @@ export type Icon = LucideIcon;
 export const Icons = {
   lock: Lock,
   document: File,
+  checkCircle: CheckCircle,
   rightpanelclose: PanelRightClose,
   leftpanelclose: PanelLeftClose,
   mail: Mail,
