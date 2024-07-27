@@ -1,5 +1,5 @@
 "use client";
-import { useEmailMarketing } from "@/hooks/email-marketing/use-marketing";
+import { useEmailMarketing } from "@/hooks/use-marketing";
 import React from "react";
 import { CustomerTable } from "./customer-table";
 import { Button } from "../ui/button";

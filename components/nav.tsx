@@ -15,7 +15,7 @@ import {
 } from "./ui/card";
 import { UpgradePlanButton } from "./upgrade-plan-button";
 import { useSidebarContext } from "@/context/sidebar-context";
-import React from "react";
+import React, { useState } from "react";
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
@@ -26,6 +26,7 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
   const path = usePathname();
 
   const { isOpen, setIsOpen } = useSidebarContext();
+  const [isHovered, setIsHovered] = useState(false);
 
   if (!items?.length) {
     return null;
@@ -46,9 +47,37 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
       >
         <nav className="flex flex-col justify-between h-full gap-2">
           <div>
-            <span className="flex items-center py-2 px-3 bg-grey-300 my-3 rounded-md">
-              <Icons.bot onClick={() => setIsOpen(!isOpen)} />
-            </span>
+            {isOpen ? (
+              <div
+                className="flex justify-between my-4"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                <Icons.bot />
+                {isHovered && (
+                  <Icons.rightpanelclose
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="cursor-pointer "
+                  />
+                )}
+              </div>
+            ) : (
+              <span
+                className="flex items-center py-2 px-3 bg-grey-300 my-3 rounded-md"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                {!isHovered ? (
+                  <Icons.bot />
+                ) : (
+                  <Icons.leftpanelclose
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="cursor-pointer "
+                  />
+                )}
+              </span>
+            )}
+
             {items.map((item, index) => {
               const Icon = Icons[item.icon || "arrowRight"];
               return (
