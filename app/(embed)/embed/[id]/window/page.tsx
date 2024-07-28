@@ -1,4 +1,4 @@
-import ChatWindow from '@/app/(dashboard)/dashboard/chatbots/[chatbotId]/chat/chatWindow/page';
+import ChatWindow from "@/app/(dashboard)/dashboard/chatbots/[chatbotId]/chat/chatWindow/page";
 
 export interface ChatComponentProps {
   params: { id: string };
@@ -14,5 +14,5 @@ export default function Chat({ params, searchParams }: ChatComponentProps) {
 
   console.log(params, searchParams);
 
-  return <ChatWindow params={{ chatbotId: params.id, withExitX: searchParams.withExitX === 'true' ? true : false, clientSidePrompt: searchParams.clientSidePrompt || "", defaultMessage: searchParams.defaultMessage || "" }} />;
+  return <ChatWindow params={{ chatbotId: params.id }} />;
 }
