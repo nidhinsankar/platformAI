@@ -1,7 +1,7 @@
-import { MarketingConfig } from "@/types"
+import { MarketingConfig } from "@/types";
 
 export const marketingConfig: MarketingConfig = {
-  mainNav: [
+  PlatformAI: [
     {
       title: "Features",
       href: "/#features",
@@ -25,6 +25,6 @@ export const marketingConfig: MarketingConfig = {
     {
       title: "Changelog",
       href: "/changelog",
-    }
+    },
   ],
-}
+};

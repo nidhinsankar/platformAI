@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const { withContentlayer } = require("next-contentlayer");
+
 const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
@@ -32,7 +34,11 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+// module.exports = nextConfig;
+module.exports = withContentlayer({
+  nextConfig,
+  reactStrictMode: true,
+});
 
 // Injected content via Sentry wizard below
 
