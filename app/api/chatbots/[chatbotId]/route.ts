@@ -13,30 +13,29 @@ const routeContextSchema = z.object({
   params: z.object({
     chatbotId: z.string(),
   }),
-})
+});
 
 async function verifyCurrentUserHasAccessToChatbot(chatbotId: string) {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   const count = await db.chatbot.count({
     where: {
       id: chatbotId,
       userId: session?.user?.id,
     },
-  })
+  });
 
-  return count > 0
+  return count > 0;
 }
 
 export async function GET(
   req: Request,
   context: z.infer<typeof routeContextSchema>
 ) {
-
-  const { params } = routeContextSchema.parse(context)
+  const { params } = routeContextSchema.parse(context);
 
   if (!(await verifyCurrentUserHasAccessToChatbot(params.chatbotId))) {
-    return new Response(null, { status: 403 })
+    return new Response(null, { status: 403 });
   }
 
   try {
@@ -49,24 +48,23 @@ export async function GET(
       where: {
         id: params.chatbotId,
       },
-    })
+    });
 
-    return new Response(JSON.stringify(chatbot))
+    return new Response(JSON.stringify(chatbot));
   } catch (error) {
-    return new Response(null, { status: 500 })
+    return new Response(null, { status: 500 });
   }
 }
-
 
 export async function PATCH(
   req: Request,
   context: z.infer<typeof routeContextSchema>
 ) {
-  const session = await getServerSession(authOptions)
-  const { params } = routeContextSchema.parse(context)
+  const session = await getServerSession(authOptions);
+  const { params } = routeContextSchema.parse(context);
 
   if (!(await verifyCurrentUserHasAccessToChatbot(params.chatbotId))) {
-    return new Response(null, { status: 403 })
+    return new Response(null, { status: 403 });
   }
 
   const openAIConfig = await db.openAIConfig.findUnique({
@@ -75,30 +73,36 @@ export async function PATCH(
       id: true,
     },
     where: {
-      userId: session?.user?.id
-    }
-  })
+      userId: session?.user?.id,
+    },
+  });
 
   if (!openAIConfig?.globalAPIKey) {
-    return new Response("Missing your global OpenAI API key, please configure your account.", { status: 400 })
+    return new Response(
+      "Missing your global OpenAI API key, please configure your account.",
+      { status: 400 }
+    );
   }
 
-  const body = await req.json()
-  const payload = chatbotSchema.parse(body)
+  const body = await req.json();
+  const payload = chatbotSchema.parse(body);
 
   try {
     const openaiTest = new OpenAI({
-      apiKey: payload.openAIKey
-    })
-    await openaiTest.models.list()
+      apiKey: payload.openAIKey,
+    });
+    await openaiTest.models.list();
   } catch (error) {
-    return new Response("Invalid OpenAI API key", { status: 400, statusText: "Invalid OpenAI API key" })
+    return new Response("Invalid OpenAI API key", {
+      status: 400,
+      statusText: "Invalid OpenAI API key",
+    });
   }
 
   try {
     const chatbot = await db.chatbot.update({
       where: {
-        id: params.chatbotId
+        id: params.chatbotId,
       },
       data: {
         name: payload.name,
@@ -116,7 +120,7 @@ export async function PATCH(
         prompt: true,
         modelId: true,
       },
-    })
+    });
 
     const currentFiles = await db.chatbotFiles.findMany({
       where: {
@@ -125,79 +129,85 @@ export async function PATCH(
       select: {
         id: true,
         fileId: true,
-      }
-    })
+      },
+    });
 
     try {
       await db.chatbotFiles.deleteMany({
         where: {
           id: {
-            in: currentFiles.map((file) => file.id)
-          }
-        }
-      })
+            in: currentFiles.map((file) => file.id),
+          },
+        },
+      });
     } catch (error) {
-      console.log("No file to delete")
+      console.log("No file to delete");
     }
 
     await db.chatbotFiles.createMany({
       data: payload.files.map((fileId: string) => ({
         chatbotId: chatbot.id,
         fileId: fileId,
-      }))
-    })
+      })),
+    });
 
     const openai = new OpenAI({
-      apiKey: openAIConfig?.globalAPIKey
-    })
+      apiKey: openAIConfig?.globalAPIKey,
+    });
 
     const model = await db.chatbotModel.findFirst({
       where: {
-        id: chatbot.modelId,
+        id: chatbot.modelId as string,
       },
       select: {
         id: true,
         name: true,
-      }
-    })
+      },
+    });
 
     const files = await db.file.findMany({
       where: {
         id: {
-          in: payload.files
+          in: payload.files,
         },
       },
       select: {
         id: true,
         name: true,
         openAIFileId: true,
-      }
-    })
+      },
+    });
 
     // validate file extension to create vector store or user code interpreter
     let bodyTools = {
-      'code_interpreter': {
-        file_ids: []
+      code_interpreter: {
+        file_ids: [],
       },
-      'file_search': {
-        vector_store_ids: []
-      }
+      file_search: {
+        vector_store_ids: [],
+      },
     };
 
-    // validate file extension to create vector store 
-    const allFileforFileSearch = files.filter((f) => searchFile.includes(f.name.split('.').pop()!));
+    // validate file extension to create vector store
+    const allFileforFileSearch = files.filter((f) =>
+      searchFile.includes(f.name.split(".").pop()!)
+    );
     console.log(allFileforFileSearch);
 
-    const allFileforCodeInterpreter = files.filter((f) => codeFile.includes(f.name.split('.').pop()?.toLocaleLowerCase()!));
+    const allFileforCodeInterpreter = files.filter((f) =>
+      codeFile.includes(f.name.split(".").pop()?.toLocaleLowerCase()!)
+    );
     console.log(allFileforCodeInterpreter);
 
-    bodyTools['code_interpreter'] = {
-      file_ids: allFileforCodeInterpreter.map((f) => f.openAIFileId)
+    bodyTools["code_interpreter"] = {
+      file_ids: allFileforCodeInterpreter.map((f) => f.openAIFileId) as never,
     };
 
     if (allFileforFileSearch.length > 0) {
       const vectorStores = await openai.beta.vectorStores.list();
-      const vectorStore = vectorStores.data.find((vs) => vs.name === `Vector Store - ${body.name}`);
+      const vectorStore = vectorStores.data.find(
+        (vs) => vs.name === `Vector Store - ${body.name}`
+      );
 
       if (vectorStore) {
         await openai.beta.vectorStores.del(vectorStore.id);
@@ -205,31 +215,28 @@ export async function PATCH(
 
       const batch = await openai.beta.vectorStores.create({
         name: `Vector Store - ${body.name}`,
-        file_ids: allFileforFileSearch.map((f) => f.openAIFileId)
+        file_ids: allFileforFileSearch.map((f) => f.openAIFileId),
       });
 
-      bodyTools['file_search'] = {
-        vector_store_ids: [batch.id]
+      bodyTools["file_search"] = {
+        vector_store_ids: [batch.id as never],
       };
     }
 
-    await openai.beta.assistants.update(
-      chatbot.openaiId,
-      {
-        name: chatbot.name,
-        instructions: chatbot.prompt,
-        model: model?.name,
-        tools: [{ type: "file_search" }, { type: "code_interpreter" }],
-        tool_resources: {
-          ...bodyTools
-        },
-      }
-    )
+    await openai.beta.assistants.update(chatbot.openaiId, {
+      name: chatbot.name,
+      instructions: chatbot.prompt,
+      model: model?.name,
+      tools: [{ type: "file_search" }, { type: "code_interpreter" }],
+      tool_resources: {
+        ...bodyTools,
+      },
+    });
 
-    return new Response(JSON.stringify(chatbot))
+    return new Response(JSON.stringify(chatbot));
   } catch (error) {
-    console.log(error)
-    return new Response(null, { status: 500 })
+    console.log(error);
+    return new Response(null, { status: 500 });
   }
 }
 
@@ -237,15 +244,14 @@ export async function DELETE(
   req: Request,
   context: z.infer<typeof routeContextSchema>
 ) {
-
-  const { params } = routeContextSchema.parse(context)
+  const { params } = routeContextSchema.parse(context);
 
   if (!(await verifyCurrentUserHasAccessToChatbot(params.chatbotId))) {
-    return new Response(null, { status: 403 })
+    return new Response(null, { status: 403 });
   }
 
   try {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
 
     const chatbot = await db.chatbot.findUnique({
       select: {
@@ -255,9 +261,9 @@ export async function DELETE(
         isImported: true,
       },
       where: {
-        id: params.chatbotId
-      }
-    })
+        id: params.chatbotId,
+      },
+    });
 
     if (!chatbot!.isImported) {
       try {
@@ -267,33 +273,33 @@ export async function DELETE(
             id: true,
           },
           where: {
-            userId: session?.user?.id
-          }
-        })
+            userId: session?.user?.id,
+          },
+        });
 
         if (!openAIConfig?.globalAPIKey) {
-          return new Response("Missing OpenAI API key", { status: 403 })
+          return new Response("Missing OpenAI API key", { status: 403 });
         }
 
         const openai = new OpenAI({
-          apiKey: openAIConfig?.globalAPIKey
-        })
+          apiKey: openAIConfig?.globalAPIKey,
+        });
 
-        await openai.beta.assistants.del(chatbot?.openaiId || '')
+        await openai.beta.assistants.del(chatbot?.openaiId || "");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
 
     await db.chatbot.delete({
       where: {
-        id: params.chatbotId
-      }
-    })
+        id: params.chatbotId,
+      },
+    });
 
-    return new Response(null, { status: 204 })
+    return new Response(null, { status: 204 });
   } catch (error) {
-    console.log(error)
-    return new Response(null, { status: 500 })
+    console.log(error);
+    return new Response(null, { status: 500 });
   }
 }
