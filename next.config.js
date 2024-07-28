@@ -52,8 +52,8 @@ module.exports = withSentryConfig(
 
     // Suppresses source map uploading logs during build
     silent: true,
-    org: "marcolivierbouch",
-    project: "PlatformAI",
+    org: "nidhinsankar",
+    project: "Platform-ai",
   },
   {
     // For all available options, see:
