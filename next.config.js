@@ -54,6 +54,7 @@ module.exports = withSentryConfig(
     silent: true,
     org: "nidhinsankar",
     project: "Platform-ai",
+    authToken: process.env.SENTRY_AUTH_TOKEN,
   },
   {
     // For all available options, see:
