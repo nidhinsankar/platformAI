@@ -27,7 +27,7 @@ export default function IndexPage() {
         data-aos="fade-up"
         className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 py-12 md:py-24 lg:py-24"
       >
-        <div className="container flex max-w-[54rem] flex-col items-center gap-4 text-center">
+        <div className="container flex max-w-[58rem] flex-col items-center gap-4 text-center">
           <Link
             href={siteConfig.links.twitter}
             className="rounded-2xl border shadow-md bg-muted px-4 py-1.5 text-sm font-medium hover:text-white hover:bg-blue-500"
@@ -36,14 +36,13 @@ export default function IndexPage() {
             Find us on 𝕏
           </Link>
           <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-            Help customers with AI driven chatbot with
-            <span className="text-orange-500"> OpenAI </span>
-            Assistant
+            Build Your Own AI <span className="text-orange-500">Sales</span>{" "}
+            Representative
           </h1>
-          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            An platform for building chatbot with the Assistant API. We offer
-            seamless integration for effortlessly incorporating a chatbot into
-            your website.
+          <p className="max-w-[55rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+            Transform your sales process with personalized AI driven chatbots.
+            Craft your own sales representative and watch your sales elevate -
+            all without writing single line of code
           </p>
           <div className="space-x-4 space-y-4">
             <Link
@@ -57,20 +56,20 @@ export default function IndexPage() {
               Get Started for Free
             </Link>
           </div>
-          <div className="relative w-[320px] h-[200px] md:w-[810px]  md:h-[540px] border  shadow-lg">
+          <div className="relative w-[320px] h-[200px] md:w-[890px]  md:h-[510px] border">
             <BorderBeam />
             <Image
               data-aos="zoom-in"
               priority={false}
               className=" w-full p-4"
-              src="/dashboard.png"
+              src="/hero.png"
               fill
               objectFit="cover"
               // width={810}
               // height={0}
               alt="Dashboard"
             />
-            <div className="absolute inset-0 bg-white opacity-50"></div>
+            {/* <div className="absolute inset-0 bg-white opacity-50"></div> */}
           </div>
         </div>
       </section>
@@ -520,7 +519,7 @@ export default function IndexPage() {
                     <span>
                       <Icons.checkCircle />
                     </span>
-                    <span>Remove &apos;Powered by OpenAssistantGPT&apos;</span>
+                    <span>Remove &apos;Powered by PlatformAI&apos;</span>
                   </li>
                   <li className="flex space-x-3">
                     <span>

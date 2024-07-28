@@ -16,6 +16,7 @@ import {
 import { UpgradePlanButton } from "./upgrade-plan-button";
 import { useSidebarContext } from "@/context/sidebar-context";
 import React, { useState } from "react";
+import { Badge } from "./ui/badge";
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
@@ -85,14 +86,23 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
                   <Link key={index} href={item.disabled ? "/" : item.href}>
                     <span
                       className={cn(
-                        "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
+                        "group flex items-center rounded-md px-3 py-2 relative text-sm font-medium hover:bg-accent hover:text-accent-foreground",
                         path === item.href ? "bg-accent" : "transparent",
                         item.disabled && "cursor-not-allowed opacity-80"
                       )}
                     >
                       <Icon className={isOpen ? "mr-2 h-4 w-4" : "w-8 h-8 "} />
                       <span className={isOpen ? "block" : "hidden"}>
-                        {item.title}
+                        <span>{item.title}</span>
+                        {item.beta && (
+                          <span className="absolute -top-3 -right-0">
+                            {
+                              <Badge className="px-1 py-0 bg-orange-500 text-[8px] uppercase font-medium ">
+                                coming soon
+                              </Badge>
+                            }
+                          </span>
+                        )}
                       </span>
                     </span>
                   </Link>

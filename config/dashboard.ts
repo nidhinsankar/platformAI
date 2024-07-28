@@ -20,8 +20,9 @@ export const dashboardConfig: DashboardConfig = {
     },
     {
       title: "Email Marketing",
-      href: "/dashboard/email-marketing",
+      href: "#",
       icon: "mail",
+      beta: true,
     },
     {
       title: "Crawlers",
