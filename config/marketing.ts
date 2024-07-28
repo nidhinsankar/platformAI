@@ -1,7 +1,7 @@
 import { MarketingConfig } from "@/types";
 
 export const marketingConfig: MarketingConfig = {
-  PlatformAI: [
+  mainNav: [
     {
       title: "Features",
       href: "/#features",
