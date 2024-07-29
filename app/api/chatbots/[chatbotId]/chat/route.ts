@@ -12,7 +12,7 @@ import { File } from "buffer";
 import { getClientIP } from "@/lib/getIP";
 import { BinaryLike } from "crypto";
 
-export const maxDuration = 300;
+export const maxDuration = 60;
 
 const routeContextSchema = z.object({
   params: z.object({

@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import OpenAI from "openai";
 import { z } from "zod";
 
-export const maxDuration = 300;
+export const maxDuration = 60;
 
 interface payloadType {
   name: string;

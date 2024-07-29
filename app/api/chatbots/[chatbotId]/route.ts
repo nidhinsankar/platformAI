@@ -7,7 +7,7 @@ import { z } from "zod";
 import { fileTypes as codeFile } from "@/lib/validations/codeInterpreter";
 import { fileTypes as searchFile } from "@/lib/validations/fileSearch";
 
-export const maxDuration = 300;
+export const maxDuration = 60;
 
 const routeContextSchema = z.object({
   params: z.object({

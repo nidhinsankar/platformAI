@@ -4,7 +4,7 @@ import { exportMessagesSchema } from "@/lib/validations/exportMessages";
 import { put } from "@vercel/blob";
 import { getServerSession } from "next-auth";
 
-export const maxDuration = 300;
+export const maxDuration = 60;
 
 async function verifyCurrentUserHasAccessToChatbot(chatbotId: string) {
   const session = await getServerSession(authOptions);
