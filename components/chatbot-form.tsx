@@ -72,7 +72,7 @@ export function ChatbotForm({
       openAIKey: chatbot.openaiKey,
       welcomeMessage: chatbot.welcomeMessage,
       chatbotErrorMessage: chatbot.chatbotErrorMessage,
-      prompt: chatbot.prompt,
+      prompt: chatbot.prompt as string,
       modelId: chatbot.modelId!,
       files: currentFiles,
       rightToLeftLanguage: chatbot.rightToLeftLanguage,
@@ -209,7 +209,7 @@ export function ChatbotForm({
                 <FormItem>
                   <FormLabel htmlFor="prompt">Prompt</FormLabel>
                   <Textarea
-                    defaultValue={chatbot.prompt}
+                    defaultValue={chatbot.prompt as string}
                     onChange={field.onChange}
                     id="prompt"
                   />
