@@ -42,7 +42,7 @@ export async function generateMetadata({
 
   const url = process.env.NEXT_PUBLIC_VERCEL_URL;
 
-  const ogUrl = new URL(`${url}/api/og`);
+  const ogUrl = new URL(`https://${url}/api/og`);
   ogUrl.searchParams.set("heading", guide.title);
   ogUrl.searchParams.set("type", "Guide");
   ogUrl.searchParams.set("mode", "dark");
