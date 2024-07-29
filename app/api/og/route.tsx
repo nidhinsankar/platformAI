@@ -17,7 +17,7 @@ export async function GET(req: Request) {
     const fontRegular = await interRegular;
     const fontBold = await interBold;
 
-    const url = new URL(req.url);
+    const url = new URL("https://" + req.url);
     const values = ogImageSchema.parse(Object.fromEntries(url.searchParams));
     const heading =
       values.heading.length > 140
