@@ -1,19 +1,18 @@
-"use client"
+"use client";
 
-import formatDistanceToNow from "date-fns/formatDistanceToNow"
+import { formatDistanceToNow } from "date-fns";
 
-import { cn } from "@/lib/utils"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { useInquiry } from "@/hooks/use-inquiries"
-import { InquiryMessages } from "@/types"
+import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useInquiry } from "@/hooks/use-inquiries";
+import { InquiryMessages } from "@/types";
 
 interface InquiryListProps {
-  inquiries: InquiryMessages[]
+  inquiries: InquiryMessages[];
 }
 
 export function InquiryList({ inquiries }: InquiryListProps) {
-
-  const [selectedInquiry, setSelectedInquiry] = useInquiry()
+  const [selectedInquiry, setSelectedInquiry] = useInquiry();
 
   return (
     <ScrollArea className="h-screen">
@@ -59,6 +58,5 @@ export function InquiryList({ inquiries }: InquiryListProps) {
         ))}
       </div>
     </ScrollArea>
-  )
+  );
 }
-

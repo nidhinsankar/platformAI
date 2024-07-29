@@ -32,8 +32,8 @@ export default function Chatbot() {
         console.log("Toggle chat visibility");
         if (iframe && buttonIframe) {
           // send openChat to iframe
-          iframe.contentWindow.postMessage("openChat", "*");
-          buttonIframe.contentWindow.postMessage("openChat", "*");
+          // iframe.contentWindow.postMessage("openChat", "*");
+          // buttonIframe.contentWindow.postMessage("openChat", "*");
           iframe.style.pointerEvents = "auto";
           iframe.style.display = "block";
           // Check if the screen width is less than 640 pixels
@@ -68,8 +68,8 @@ export default function Chatbot() {
           iframe.style.display = "none";
           iframe.style.pointerEvents = "none";
           // send openChat to iframe
-          iframe.contentWindow.postMessage("closeChat", "*");
-          buttonIframe.contentWindow.postMessage("closeChat", "*");
+          // iframe.contentWindow.postMessage("closeChat", "*");
+          // buttonIframe.contentWindow.postMessage("closeChat", "*");
         }
       }
     });
@@ -91,7 +91,7 @@ export default function Chatbot() {
           ></iframe>
           <iframe
             src={`/embed/clq6m06gc000114hm42s838g2/window?chatbox=false&withExitX=true`}
-            style={customStyle}
+            // style={customStyle}
             allowFullScreen
             className="z-50"
             id="PlatformAI-chatbot-iframe"
