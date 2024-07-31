@@ -215,7 +215,7 @@ export default function IndexPage() {
             </div>
           </div>
           <div className="relative overflow-hidden rounded-lg  p-2 md:col-span-2 bg-gradient-to-b from-orange-200 to-white shadow-lg">
-            <div className="flex h-[180px] md:h-[280px] flex-col justify-between rounded-md p-6">
+            <div className="flex h-[180px] md:h-[280px] flex-col rounded-md p-6">
               <svg
                 width="24"
                 height="24"
@@ -237,7 +237,7 @@ export default function IndexPage() {
                   you crawled.
                 </p>
               </div>
-              <div className="w-32 absolute right-0 top-0 bottom-0 h-full">
+              <div className="w-32 md:w-[120px] absolute right-0 bottom-0">
                 <Image
                   src={"/card-img-2.svg"}
                   alt="wiki"

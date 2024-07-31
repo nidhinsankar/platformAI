@@ -34,6 +34,20 @@ const nextConfig = {
   },
 };
 
+const path = require("path");
+
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        stream: require.resolve("stream-browserify"),
+        // Add other Node.js modules as needed
+      };
+    }
+    return config;
+  },
+};
+
 // module.exports = nextConfig;
 module.exports = withContentlayer({
   nextConfig,

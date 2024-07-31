@@ -1,3 +1,3 @@
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
-export const email = new Resend(process.env.RESEND_TOKEN);
+export const email = new Resend(process.env.NEXT_PUBLIC_RESEND_TOKEN);

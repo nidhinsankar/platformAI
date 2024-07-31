@@ -84,6 +84,8 @@
     "resend": "^3.2.0",
     "sharp": "^0.33.3",
     "shikiji": "^0.10.2",
+    "stream": "^0.0.3",
+    "stream-browserify": "^3.0.0",
     "stripe": "^14.7.0",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
