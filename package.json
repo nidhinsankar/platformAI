@@ -51,6 +51,7 @@
     "contentlayer": "^0.3.4",
     "date-fns": "^3.0.6",
     "emblor": "^1.4.0",
+    "framer-motion": "^11.3.19",
     "fs": "^0.0.1-security",
     "ip-range-check": "^0.2.0",
     "jotai": "^2.7.2",
@@ -87,7 +88,7 @@
     "stream": "^0.0.3",
     "stream-browserify": "^3.0.0",
     "stripe": "^14.7.0",
-    "tailwind-merge": "^2.0.0",
+    "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4",
     "zod-form-data": "^2.0.2"

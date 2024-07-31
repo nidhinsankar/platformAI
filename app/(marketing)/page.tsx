@@ -18,9 +18,32 @@ import { Badge } from "@/components/ui/badge";
 import { CodeBlock } from "@/components/ui/codeblock";
 import { Code } from "lucide-react";
 import { BorderBeam } from "@/components/magicui/border-beam";
+import { TypewriterEffectSmooth } from "@/components/magicui/typewriter-effect";
 import { AnimatedBeamMultipleOutputDemo } from "@/components/compatible-section";
 
 export default function IndexPage() {
+  const words = [
+    {
+      text: "Build",
+      className: "text-black-500 dark:text-black-500",
+    },
+    {
+      text: "your",
+      className: "text-black-500 dark:text-black-500",
+    },
+    {
+      text: "own",
+      className: "text-black-500 dark:text-black-500",
+    },
+    {
+      text: "AI",
+      className: "text-black-500 dark:text-black-500",
+    },
+    {
+      text: "Chatbot.",
+      className: "text-orange-500 dark:text-orange-500",
+    },
+  ]
   return (
     <>
       <section
@@ -30,7 +53,7 @@ export default function IndexPage() {
         <div className="container flex max-w-[58rem] flex-col items-center gap-4 text-center">
           <Link
             href={siteConfig.links.twitter}
-            className="rounded-2xl border shadow-md bg-muted px-4 py-1.5 text-sm font-medium hover:text-white hover:bg-blue-500"
+            className="rounded-2xl border shadow-md bg-muted px-4 py-1.5 text-sm font-medium hover:text-white hover:bg-orange-500"
             target="_blank"
           >
             Find us on 𝕏
@@ -606,13 +629,15 @@ export default function IndexPage() {
         id="faq"
         className="container space-y-6 py-12 md:py-24 lg:py-24"
       >
+        
         <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center bg-gray-200 h-[350px] rounded-lg gap-y-7 text-center">
+        <TypewriterEffectSmooth words={words} />
           <h2>Maximize your support capacity without extra hiring</h2>
           <Link
             href="/login"
             className={cn(
               buttonVariants({ size: "lg" }),
-              "hover:bg-blue-500 hover:-translate-y-4"
+              "bg-primary hover:bg-orange-500"
             )}
           >
             <Icons.bot className="h-4 w-4 mr-2"></Icons.bot>

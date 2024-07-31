@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export function constructMetadata({
-  title = `PlatformAI - Build your own chatbot with OpenAI Assistant`,
-  description = `PlatformAI is the open-source platform for building chatbot using the OpenAI Assistant API. We offer seamless integration for effortlessly incorporating a chatbot into your website.`,
+  title = `PlatformAI - Build your own AI chatbot.`,
+  description = `PlatformAI is an platform for building custom chatbot. We offer seamless integration for effortlessly incorporating a chatbot into your website.`,
   image = "https://PlatformAI.io/thumbnail.png",
   icons = [
     {
