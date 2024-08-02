@@ -28,7 +28,7 @@ export function MainNavMarketing({ items, children }: MainNavMarketingProps) {
         <Icons.bot />
         <Link href="/" className="hidden items-center space-x-2 md:flex">
           <span className="hidden font-bold sm:inline-block">
-            {siteConfig.name}
+          Platform <span className="text-orange-500">AI</span>
           </span>
         </Link>
       </div>

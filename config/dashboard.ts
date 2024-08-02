@@ -19,6 +19,11 @@ export const dashboardConfig: DashboardConfig = {
       icon: "bot",
     },
     {
+      title: "Embed",
+      href: "/dashboard/embed",
+      icon: "CodeIcon",
+    },
+    {
       title: "Email Marketing",
       href: "#",
       icon: "mail",

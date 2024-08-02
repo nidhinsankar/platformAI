@@ -14,7 +14,7 @@ export function SiteFooter({ simpleFooter, className }: SiteFooterProps) {
       <div className=" flex flex-col md:flex-row md:justify-between m-5">
         <div className="flex my-6 md:justify-center">
           <Icons.bot className="w-10 mt-1" />
-          <span className="text-2xl font-bold">PlatformAI</span>
+          <h1 className="text-2xl bold">Platform <span className=" text-2xl bold text-orange-500">AI</span></h1>
         </div>
         <div className="px-4 sm:px-6 lg:px-8">
           {!simpleFooter && (
@@ -24,15 +24,15 @@ export function SiteFooter({ simpleFooter, className }: SiteFooterProps) {
                 <ul className="space-y-2">
                   <li>
                     <Link
-                      className="text-base text-gray-500 hover:text-blue-500"
-                      href="https://PlatformAI.io/docs"
+                      className="text-base text-gray-500 hover:text-orange-500"
+                      href="https://platform-ai-ashen.vercel.app/docs"
                     >
                       Documentation
                     </Link>
                   </li>
                   <li>
                     <Link
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href="/login"
                     >
                       App
@@ -40,7 +40,7 @@ export function SiteFooter({ simpleFooter, className }: SiteFooterProps) {
                   </li>
                   <li>
                     <Link
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href="/login"
                     >
                       Email Marketing
@@ -54,7 +54,7 @@ export function SiteFooter({ simpleFooter, className }: SiteFooterProps) {
                   <li>
                     <Link
                       target="_blank"
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href={siteConfig.links.github}
                     >
                       Github
@@ -63,7 +63,7 @@ export function SiteFooter({ simpleFooter, className }: SiteFooterProps) {
                   <li>
                     <Link
                       target="_blank"
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href={siteConfig.links.productHunt}
                     >
                       ProductHunt
@@ -79,34 +79,34 @@ export function SiteFooter({ simpleFooter, className }: SiteFooterProps) {
                   <li>
                     <Link
                       target="_blank"
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href={siteConfig.links.github}
                     >
-                      Nextjs
+                      Whatsapp
                     </Link>
                   </li>
                   <li>
                     <Link
                       target="_blank"
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href={siteConfig.links.productHunt}
                     >
-                      Astro
+                      Notion
                     </Link>
                   </li>
                   <li>
                     <Link
                       target="_blank"
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href={siteConfig.links.productHunt}
                     >
-                      Wix
+                      Google Docs
                     </Link>
                   </li>
                   <li>
                     <Link
                       target="_blank"
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href={siteConfig.links.productHunt}
                     >
                       Shopify
@@ -116,13 +116,13 @@ export function SiteFooter({ simpleFooter, className }: SiteFooterProps) {
               </div>
               <div className="space-y-2">
                 <h3 className="text-lg font-semibold text-gray-700">
-                  Templates
+                  Support
                 </h3>
                 <ul className="space-y-2">
                   <li>
                     <Link
                       target="_blank"
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href={siteConfig.links.github}
                     >
                       Marketing
@@ -131,7 +131,7 @@ export function SiteFooter({ simpleFooter, className }: SiteFooterProps) {
                   <li>
                     <Link
                       target="_blank"
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href={siteConfig.links.productHunt}
                     >
                       Sales
@@ -140,7 +140,7 @@ export function SiteFooter({ simpleFooter, className }: SiteFooterProps) {
                   <li>
                     <Link
                       target="_blank"
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href={siteConfig.links.productHunt}
                     >
                       Support
@@ -149,7 +149,7 @@ export function SiteFooter({ simpleFooter, className }: SiteFooterProps) {
                   <li>
                     <Link
                       target="_blank"
-                      className="text-base text-gray-500 hover:text-blue-500"
+                      className="text-base text-gray-500 hover:text-orange-500"
                       href={siteConfig.links.productHunt}
                     >
                       Customer Support

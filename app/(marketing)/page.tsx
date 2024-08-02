@@ -1,3 +1,5 @@
+"use client"
+
 import { GithubCard } from "@/components/github-card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -129,7 +131,7 @@ export default function IndexPage() {
       <section
         data-aos="fade-up"
         id="features"
-        className="container space-y-6 py-12 md:py-24 lg:py-24 bg-gray-200"
+        className="container space-y-6 py-12 md:py-24 lg:py-24 bg-gray-100 rounded-lg"
       >
         <div className="mx-auto flex max-w-[64rem] flex-col items-start space-y-4">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
@@ -142,7 +144,7 @@ export default function IndexPage() {
         </div>
         {/* <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-7 mt-6"> */}
         <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-7 mt-6">
-          <div className="relative overflow-hidden rounded-lg bg-gradient-to-b from-purple-200 to-white shadow-lg p-2 md:col-span-7">
+          <div className="relative overflow-hidden rounded-lg bg-gradient-to-b from-purple-300 to-white shadow-lg p-2 md:col-span-7">
             <div className="flex h-[180px] md:h-[320px]  justify-between rounded-md p-6 ">
               <div className="mr-10 md:w-[40%]">
                 <svg
@@ -156,20 +158,20 @@ export default function IndexPage() {
                 </svg>
                 <div className="space-y-2">
                   <h3 className="font-bold">OpenAI Assistants</h3>
-                  <p className="text-sm">
+                  <p className="text-base">
                     We use OpenAI Assistant to power our chatbots. You can use
                     GPT-4, GTP-3.5 and GPT-4o
                   </p>
                 </div>
               </div>
               <div className="w-32 md:w-[500px] absolute right-0 top-0 bottom-0">
-                <Image
-                  src={"/lion.png"}
+                {/*<Image
+                  src={"/"}
                   alt="wiki"
                   className="w-full"
                   fill
                   objectFit="cover"
-                />
+                />*/}
               </div>
             </div>
           </div>
@@ -209,28 +211,28 @@ export default function IndexPage() {
               </svg>
               <div className="space-y-2">
                 <h3 className="font-bold">Easy integration</h3>
-                <p className="text-sm">
+                <p className="text-base">
                   Only include few lines of code in your website to make the
                   chatbot work.
                 </p>
               </div>
               <div className="w-32 md:w-[180px] absolute right-0 bottom-0">
-                <Image
+                {/*<Image
                   src={"/wiki.svg"}
                   alt="wiki"
                   className="w-full"
                   width={0}
                   height={0}
-                />
+                />*/}
               </div>
             </div>
           </div>
           <div className="relative overflow-hidden rounded-lg  p-2 md:col-span-3 bg-gradient-to-b from-blue-200 to-white shadow-lg">
-            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
+            <div className="flex h-[180px] flex-col justify-between  rounded-md p-6">
               <Icons.import></Icons.import>
               <div className="space-y-2">
-                <h3 className="font-bold">User Inquiry</h3>
-                <p className="text-sm">
+                <h3 className="font-bold pb-5">User Inquiry</h3>
+                <p className="text-base">
                   User can enter contact information with a question and you can
                   collect leads.
                 </p>
@@ -255,19 +257,19 @@ export default function IndexPage() {
               </svg>
               <div className="space-y-2">
                 <h3 className="font-bold">Crawler</h3>
-                <p className="text-sm">
+                <p className="text-base">
                   Crawl the website you want, train the chatbot with the website
                   you crawled.
                 </p>
               </div>
               <div className="w-32 md:w-[120px] absolute right-0 bottom-0">
-                <Image
+                {/*<Image
                   src={"/card-img-2.svg"}
                   alt="wiki"
                   className="w-full"
                   width={0}
                   height={0}
-                />
+                />*/}
               </div>
             </div>
           </div>
@@ -279,18 +281,18 @@ export default function IndexPage() {
               <Icons.key></Icons.key>
               <div className="space-y-2">
                 <h3 className="font-bold">Bring your API key</h3>
-                <p className="text-sm relative z-20 md:w-64">
+                <p className="text-base relative z-20 md:w-64">
                   No extra charge, you get billed directly by OpenAI.
                 </p>
               </div>
               <div className="w-40 absolute  right-0 bottom-0">
-                <Image
+                {/*<Image
                   src={"/carg-img.svg"}
                   alt="wiki"
                   className="w-full"
                   width={0}
                   height={0}
-                />
+                />*/}
               </div>
             </div>
           </div>
@@ -299,19 +301,19 @@ export default function IndexPage() {
               <Icons.folder></Icons.folder>
               <div className="space-y-2">
                 <h3 className="font-bold">File Attachments</h3>
-                <p className="text-sm">
+                <p className="text-lg">
                   You can attach a file CSV, XML, Images etc... in the chat and
                   the chatbot will analyse it.
                 </p>
               </div>
               <div className="w-60 absolute  right-0 bottom-0">
-                <Image
+                {/*<Image
                   src={"/building.svg"}
                   alt="wiki"
                   className="w-full"
                   width={0}
                   height={0}
-                />
+                />*/}
               </div>
             </div>
           </div>
@@ -333,10 +335,10 @@ export default function IndexPage() {
           <div className="flex flex-col items-center justify-center space-y-4 md:space-y-6">
             <div className="space-y-3 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Compatible with most popular websites
+                Compatible with most popular platforms
               </h2>
               <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Effortlessly integrate with the most popular website platforms.
+                Effortlessly integrate with the most popular platforms.
               </p>
             </div>
             <AnimatedBeamMultipleOutputDemo />
