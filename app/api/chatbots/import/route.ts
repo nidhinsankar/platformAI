@@ -3,7 +3,7 @@ import { authOptions } from "@/lib/auth";
 
 import { db } from "@/lib/db";
 import OpenAI from "openai";
-import { getUserSubscriptionPlan } from "@/lib/subscription";
+// import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { RequiresHigherPlanError } from "@/lib/exceptions";
 import { importChatbotSchema } from "@/lib/validations/importChatbot";
 
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
 
     // Validate user subscription plan
     const { user } = session;
-    const subscriptionPlan = await getUserSubscriptionPlan(user.id);
+    // const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
     const count = await db.chatbot.count({
       where: {
@@ -27,9 +27,9 @@ export async function POST(req: Request) {
       },
     });
 
-    if (count >= subscriptionPlan.maxChatbots) {
-      throw new RequiresHigherPlanError();
-    }
+    // if (count >= subscriptionPlan.maxChatbots) {
+    //   throw new RequiresHigherPlanError();
+    // }
 
     const json = await req.json();
     const body = importChatbotSchema.parse(json);

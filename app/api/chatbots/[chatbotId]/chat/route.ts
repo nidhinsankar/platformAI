@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import OpenAI from "openai";
 
 import { string, z } from "zod";
-import { getUserSubscriptionPlan } from "@/lib/subscription";
+// import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { AssistantResponse } from "@/lib/assistant-response";
 import { zfd } from "zod-form-data";
 import { Message } from "openai/resources/beta/threads/messages.mjs";
@@ -130,7 +130,7 @@ export async function POST(
       },
       async ({ sendMessage, forwardStream, sendDataMessage }) => {
         try {
-          const plan = await getUserSubscriptionPlan(chatbot.userId);
+          const plan = { unlimitedMessages: false, maxMessagesPerMonth: 0 }; //await getUserSubscriptionPlan(chatbot.userId);
           if (plan.unlimitedMessages === false) {
             const messageCount = await db.message.count({
               where: {
