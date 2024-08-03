@@ -21,9 +21,11 @@ import { CodeBlock } from "@/components/ui/codeblock";
 import { Code } from "lucide-react";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { TypewriterEffectSmooth } from "@/components/magicui/typewriter-effect";
+import { FlipWords } from "@/components/magicui/flip-words";
 import { AnimatedBeamMultipleOutputDemo } from "@/components/compatible-section";
 
 export default function IndexPage() {
+  const wording = ["sales", "website", "custom"];
   const words = [
     {
       text: "Build",
@@ -61,7 +63,7 @@ export default function IndexPage() {
             Find us on 𝕏
           </Link>
           <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-            Build Your Own AI <span className="text-orange-500">Sales</span>{" "}
+            Build Your Own AI <FlipWords wording={wording} />{" "}
             Representative
           </h1>
           <p className="max-w-[55rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
