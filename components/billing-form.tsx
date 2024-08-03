@@ -21,10 +21,11 @@ import { UserSubscriptionPlan } from "@/types";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Link from "next/link";
+import BuyButton from "./BuyButton";
 
 interface BillingFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  subscriptionPlan: UserSubscriptionPlan & {
-    isCanceled: boolean;
+  subscriptionPlan?: UserSubscriptionPlan & {
+    isCanceled?: boolean;
   };
 }
 
@@ -37,191 +38,80 @@ export async function BillingForm({
   //   const session = await getServerSession(authOptions);
 
   return (
-    <form className={cn(className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Subscription Plan</CardTitle>
-          <CardDescription className="flex items-center">
-            <p>
-              You are currently on the <strong>{subscriptionPlan.name}</strong>{" "}
-              plan.
-            </p>
-            <p>
-              {subscriptionPlan.name !== "FREE" ? (
-                <p className="">
-                  {subscriptionPlan.isCanceled
-                    ? "Your plan will be canceled on "
-                    : "Your plan renews on "}
-                  {formatDate(subscriptionPlan.stripeCurrentPeriodEnd)}.
-                </p>
-              ) : null}
-            </p>
-          </CardDescription>
-        </CardHeader>
-        <CardContent>{subscriptionPlan.description}</CardContent>
-        <CardFooter className="flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0">
-          {subscriptionPlan.name !== "FREE" && (
-            <button className={cn(buttonVariants())} disabled={isLoading}>
-              {isLoading && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Manage Subscription
-            </button>
-          )}
-        </CardFooter>
-      </Card>
+    // <form className={cn(className)} {...props}>
+    <>
       <Card className="border-0 shadow-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 flex-wrap gap-6 mt-8 md:gap-8">
-          {[freePlan, basicPlan, proPlan].map((plan, i) => {
-            if (plan.name === proPlan.name) {
-              return (
-                <div
-                  key={i}
-                  className="hover:shadow-sm relative flex flex-col p-2 bg-white rounded-lg  bg-zinc-850 justify-between border border-purple-500"
-                >
-                  <div className="px-3 py-1 text-sm text-white bg-gradient-to-r from-pink-500 to-purple-500 rounded-full inline-block absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    Popular
-                  </div>
-                  <Card className="shadow-none border-0 p-0 m-0" key={i}>
-                    <CardHeader>
-                      <CardTitle>{plan.name}</CardTitle>
-                      <CardDescription>${plan.price}/month</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="mt-4 space-y-2">
-                        <li className="flex items-center">
-                          - {plan.maxChatbots} Chatbots
-                        </li>
-                        <li className="flex items-center">
-                          - {plan.maxCrawlers} Crawlers
-                        </li>
-                        <li className="flex items-center">
-                          - {plan.maxFiles} Files
-                        </li>
-                        {plan.basicCustomization && (
-                          <li className="flex items-center">
-                            - Customizations
-                          </li>
-                        )}
-                        {plan.unlimitedMessages ? (
-                          <li className="flex items-center">
-                            - Unlimited Messages
-                          </li>
-                        ) : (
-                          <li className="flex items-center">
-                            - {plan.maxMessagesPerMonth} Messages / Month
-                          </li>
-                        )}
-                        {plan.userInquiries && (
-                          <li className="flex items-center">- User Inquiry</li>
-                        )}
-                        {plan.brandingCustomization && (
-                          <li className="flex items-center">
-                            - Remove &quot;Powered by {siteConfig.name}&quot;
-                          </li>
-                        )}
-                        {plan.chatFileAttachments && (
-                          <li className="flex items-center">
-                            - Client File Attachments
-                          </li>
-                        )}
-                        {plan.premiumSupport && (
-                          <li className="flex items-center">
-                            - Premium Support
-                          </li>
-                        )}
-                      </ul>
-                    </CardContent>
-                    <CardFooter className="mt-auto mx-auto">
-                      <a
-                        className={cn(buttonVariants({ variant: "default" }))}
-                        target="_blank"
-                        href={
-                          process.env.NEXT_PUBLIC_STRIPE_PRO_PAYMENT_LINK +
-                          "?prefilled_email="
-                          // session?.user?.email
-                        }
-                      >
-                        Upgrade
-                      </a>
-                    </CardFooter>
-                  </Card>
+          {[freePlan, basicPlan, proPlan].map((plan) => (
+            <div
+              key={plan.name}
+              className={cn(
+                "hover:shadow-sm relative flex flex-col p-2 bg-white rounded-lg  bg-zinc-850 justify-between border",
+                plan.name === "PRO" && "border-purple-500"
+              )}
+            >
+              {plan.name === "PRO" && (
+                <div className="px-3 py-1 text-sm text-white bg-gradient-to-r from-pink-500 to-purple-500 rounded-full inline-block absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  Popular
                 </div>
-              );
-            }
-            return (
-              <div
-                key={i}
-                className="hover:shadow-sm relative flex flex-col p-2 bg-white rounded-lg bg-zinc-850 justify-between border "
+              )}
+              <Card
+                className="shadow-none border-0 p-0 m-0 flex flex-col flex-grow"
+                key={plan.name}
               >
-                <Card
-                  className="shadow-none border-0 p-0 m-0 flex flex-col flex-grow"
-                  key={i}
-                >
-                  <CardHeader>
-                    <CardTitle>{plan.name}</CardTitle>
-                    <CardDescription>${plan.price}/month</CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex flex-col flex-grow">
-                    <ul className="mt-4 space-y-2">
-                      <li className="flex items-center">
-                        - {plan.maxChatbots} Chatbots
-                      </li>
-                      <li className="flex items-center">
-                        - {plan.maxCrawlers} Crawlers
-                      </li>
-                      <li className="flex items-center">
-                        - {plan.maxFiles} Files
-                      </li>
-                      {plan.basicCustomization && (
-                        <li className="flex items-center">- Customizations</li>
-                      )}
-                      {plan.unlimitedMessages ? (
-                        <li className="flex items-center">
-                          - Unlimited Messages
-                        </li>
-                      ) : (
-                        <li className="flex items-center">
-                          - {plan.maxMessagesPerMonth} Messages / Month
-                        </li>
-                      )}
-                      {plan.userInquiries && (
-                        <li className="flex items-center">- User Inquiry</li>
-                      )}
-                      {plan.brandingCustomization && (
-                        <li className="flex items-center">
-                          - Remove &quot;Powered by {siteConfig.name}&quot;
-                        </li>
-                      )}
-                      {plan.chatFileAttachments && (
-                        <li className="flex items-center">
-                          - Client File Attachments
-                        </li>
-                      )}
-                      {plan.premiumSupport && (
-                        <li className="flex items-center">- Premium Support</li>
-                      )}
-                    </ul>
-                  </CardContent>
-                  <CardFooter className="mt-auto mx-auto">
-                    {plan.name === "BASIC" && (
-                      <a
-                        className={cn(buttonVariants({ variant: "default" }))}
-                        target="_blank"
-                        href={
-                          process.env.NEXT_PUBLIC_STRIPE_BASIC_PAYMENT_LINK +
-                          "?prefilled_email="
-                          // session?.user?.email
-                        }
-                      >
-                        Upgrade
-                      </a>
+                <CardHeader>
+                  <CardTitle>{plan.name}</CardTitle>
+                  <CardDescription>${plan.price}/month</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="mt-4 space-y-2">
+                    <li className="flex items-center">
+                      - {plan.maxChatbots} Chatbots
+                    </li>
+                    <li className="flex items-center">
+                      - {plan.maxCrawlers} Crawlers
+                    </li>
+                    <li className="flex items-center">
+                      - {plan.maxFiles} Files
+                    </li>
+                    {plan.basicCustomization && (
+                      <li className="flex items-center">- Customizations</li>
                     )}
-                  </CardFooter>
-                </Card>
-              </div>
-            );
-          })}
+                    {plan.unlimitedMessages ? (
+                      <li className="flex items-center">
+                        - Unlimited Messages
+                      </li>
+                    ) : (
+                      <li className="flex items-center">
+                        - {plan.maxMessagesPerMonth} Messages / Month
+                      </li>
+                    )}
+                    {plan.userInquiries && (
+                      <li className="flex items-center">- User Inquiry</li>
+                    )}
+                    {plan.brandingCustomization && (
+                      <li className="flex items-center">
+                        - Remove &quot;Powered by {siteConfig.name}&quot;
+                      </li>
+                    )}
+                    {plan.chatFileAttachments && (
+                      <li className="flex items-center">
+                        - Client File Attachments
+                      </li>
+                    )}
+                    {plan.premiumSupport && (
+                      <li className="flex items-center">- Premium Support</li>
+                    )}
+                  </ul>
+                </CardContent>
+                <CardFooter className="mt-auto align-bottom mx-auto">
+                  {plan.lemonSqueezyVariantId && (
+                    <BuyButton productId={plan.lemonSqueezyVariantId} />
+                  )}
+                </CardFooter>
+              </Card>
+            </div>
+          ))}
           {
             <Card key="enterprise" className="flex flex-col flex-grow">
               <CardHeader>
@@ -252,6 +142,158 @@ export async function BillingForm({
           }
         </div>
       </Card>
-    </form>
+    </>
+    // </form>
   );
 }
+
+// {[freePlan, basicPlan, proPlan].map((plan, i) => {
+//   if (plan.name === proPlan.name) {
+//     return (
+//       <div
+//         key={i}
+//         className="hover:shadow-sm relative flex flex-col p-2 bg-white rounded-lg  bg-zinc-850 justify-between border border-purple-500"
+//       >
+//         <div className="px-3 py-1 text-sm text-white bg-gradient-to-r from-pink-500 to-purple-500 rounded-full inline-block absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+//           Popular
+//         </div>
+//         <Card className="shadow-none border-0 p-0 m-0" key={i}>
+//           <CardHeader>
+//             <CardTitle>{plan.name}</CardTitle>
+//             <CardDescription>${plan.price}/month</CardDescription>
+//           </CardHeader>
+//           <CardContent>
+//             <ul className="mt-4 space-y-2">
+//               <li className="flex items-center">
+//                 - {plan.maxChatbots} Chatbots
+//               </li>
+//               <li className="flex items-center">
+//                 - {plan.maxCrawlers} Crawlers
+//               </li>
+//               <li className="flex items-center">
+//                 - {plan.maxFiles} Files
+//               </li>
+//               {plan.basicCustomization && (
+//                 <li className="flex items-center">
+//                   - Customizations
+//                 </li>
+//               )}
+//               {plan.unlimitedMessages ? (
+//                 <li className="flex items-center">
+//                   - Unlimited Messages
+//                 </li>
+//               ) : (
+//                 <li className="flex items-center">
+//                   - {plan.maxMessagesPerMonth} Messages / Month
+//                 </li>
+//               )}
+//               {plan.userInquiries && (
+//                 <li className="flex items-center">- User Inquiry</li>
+//               )}
+//               {plan.brandingCustomization && (
+//                 <li className="flex items-center">
+//                   - Remove &quot;Powered by {siteConfig.name}&quot;
+//                 </li>
+//               )}
+//               {plan.chatFileAttachments && (
+//                 <li className="flex items-center">
+//                   - Client File Attachments
+//                 </li>
+//               )}
+//               {plan.premiumSupport && (
+//                 <li className="flex items-center">
+//                   - Premium Support
+//                 </li>
+//               )}
+//             </ul>
+//           </CardContent>
+//           <CardFooter className="mt-auto mx-auto">
+//             <a
+//               className={cn(buttonVariants({ variant: "default" }))}
+//               target="_blank"
+//               href={
+//                 process.env.NEXT_PUBLIC_STRIPE_PRO_PAYMENT_LINK +
+//                 "?prefilled_email="
+//                 // session?.user?.email
+//               }
+//             >
+//               Upgrade
+//             </a>
+//           </CardFooter>
+//         </Card>
+//       </div>
+//     );
+//   }
+//   return (
+//     <div
+//       key={i}
+//       className="hover:shadow-sm relative flex flex-col p-2 bg-white rounded-lg bg-zinc-850 justify-between border "
+//     >
+//       <Card
+//         className="shadow-none border-0 p-0 m-0 flex flex-col flex-grow"
+//         key={i}
+//       >
+//         <CardHeader>
+//           <CardTitle>{plan.name}</CardTitle>
+//           <CardDescription>${plan.price}/month</CardDescription>
+//         </CardHeader>
+//         <CardContent className="flex flex-col flex-grow">
+//           <ul className="mt-4 space-y-2">
+//             <li className="flex items-center">
+//               - {plan.maxChatbots} Chatbots
+//             </li>
+//             <li className="flex items-center">
+//               - {plan.maxCrawlers} Crawlers
+//             </li>
+//             <li className="flex items-center">
+//               - {plan.maxFiles} Files
+//             </li>
+//             {plan.basicCustomization && (
+//               <li className="flex items-center">- Customizations</li>
+//             )}
+//             {plan.unlimitedMessages ? (
+//               <li className="flex items-center">
+//                 - Unlimited Messages
+//               </li>
+//             ) : (
+//               <li className="flex items-center">
+//                 - {plan.maxMessagesPerMonth} Messages / Month
+//               </li>
+//             )}
+//             {plan.userInquiries && (
+//               <li className="flex items-center">- User Inquiry</li>
+//             )}
+//             {plan.brandingCustomization && (
+//               <li className="flex items-center">
+//                 - Remove &quot;Powered by {siteConfig.name}&quot;
+//               </li>
+//             )}
+//             {plan.chatFileAttachments && (
+//               <li className="flex items-center">
+//                 - Client File Attachments
+//               </li>
+//             )}
+//             {plan.premiumSupport && (
+//               <li className="flex items-center">- Premium Support</li>
+//             )}
+//           </ul>
+//         </CardContent>
+//         <CardFooter className="mt-auto mx-auto">
+//           {plan.name === "BASIC" && (
+//             <a
+//               className={cn(buttonVariants({ variant: "default" }))}
+//               target="_blank"
+//               href={
+//                 process.env.NEXT_PUBLIC_STRIPE_BASIC_PAYMENT_LINK +
+//                 "?prefilled_email="
+//                 // session?.user?.email
+//               }
+//             >
+//               Upgrade
+//             </a>
+//           )}
+//         </CardFooter>
+//       </Card>
+//     </div>
+//   );
+// })}

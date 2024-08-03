@@ -110,7 +110,7 @@ export type UploadPublishedFile = {
 export type SubscriptionPlan = {
   name: string;
   description: string;
-  stripePriceId: string;
+  lemonSqueezyVariantId: string;
 
   // Specs
   maxChatbots: number;

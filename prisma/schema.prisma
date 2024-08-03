@@ -188,31 +188,35 @@ model Session {
 }
 
 model User {
-  id                             String        @id @default(cuid())
-  name                           String?
-  email                          String?       @unique
-  emailVerified                  DateTime?
-  image                          String?
-  createdAt                      DateTime      @default(now()) @map("created_at")
-  inquiryEmailEnabled            Boolean       @default(true)
-  marketingEmailEnabled          Boolean       @default(true)
-  invoice_url                    String?       @unique
-  lemonSqueezyCustomerId         String?
-  lemonSqueezyPaymentRenewal     DateTime?
-  lemonSqueezyPaymentTotal       String?
-  lemonSqueezySubscriptionId     String?
-  lemonSqueezySubscriptionStatus String?
-  payment_sucess_id              String?       @unique
-  accounts                       Account[]
-  Billings                       Billings?
-  Campaign                       Campaign[]
-  Domain                         Domain[]
-  OpenAIConfig                   OpenAIConfig?
-  sessions                       Session[]
-  Chatbot                        Chatbot[]
-  Crawler                        Crawler[]
-  File                           File[]
-  Message                        Message[]
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+
+  accounts     Account[]
+  sessions     Session[]
+  Chatbot      Chatbot[]
+  Crawler      Crawler[]
+  OpenAIConfig OpenAIConfig[]
+  File         File[]
+
+  Message                  Message[]
+
+  lemonSqueezyPaymentSuccessId     String?  @unique @map(name: "payment_sucess_id")
+  lemonSqueezyPaymentInvoiceUrl    String?  @unique @map(name: "invoice_url")
+  lemonSqueezyPaymentTotal         String?  
+  lemonSqueezyCustomerId           String?
+  lemonSqueezySubscriptionId       String?
+  lemonSqueezySubscriptionStatus   String?
+  lemonSqueezyPaymentRenewal       DateTime?
+
+  inquiryEmailEnabled   Boolean    @default(true)
+  marketingEmailEnabled Boolean    @default(true)
+  Domain                Domain[]
+  Billings              Billings?
+  Campaign              Campaign[]
 }
 
 model CustomerResponses {
