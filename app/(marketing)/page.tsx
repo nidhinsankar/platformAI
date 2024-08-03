@@ -25,7 +25,7 @@ import { FlipWords } from "@/components/magicui/flip-words";
 import { AnimatedBeamMultipleOutputDemo } from "@/components/compatible-section";
 
 export default function IndexPage() {
-  const wording = ["sales", "website", "custom"];
+  const wording = ["sales", "brand", "custom"];
   const words = [
     {
       text: "Build",
