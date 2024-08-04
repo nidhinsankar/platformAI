@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import OpenAI from "openai";
-// import { getUserSubscriptionPlan } from '@/lib/subscription';
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { RequiresHigherPlanError } from "@/lib/exceptions";
 import { fileTypes as codeTypes } from "@/lib/validations/codeInterpreter";
 import { fileTypes as searchTypes } from "@/lib/validations/fileSearch";
@@ -22,16 +22,16 @@ export async function POST(request: Request) {
 
     // Validate user subscription plan
     const { user } = session;
-    // const subscriptionPlan = await getUserSubscriptionPlan(user.id)
+    const subscriptionPlan = await getUserSubscriptionPlan(user.id);
     const count = await db.file.count({
       where: {
         userId: user.id,
       },
     });
 
-    // if (count >= subscriptionPlan.maxFiles) {
-    //     throw new RequiresHigherPlanError()
-    // }
+    if (count >= subscriptionPlan.maxFiles) {
+      throw new RequiresHigherPlanError();
+    }
 
     const { searchParams } = new URL(request.url);
     const filename = searchParams.get("filename");

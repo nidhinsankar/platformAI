@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import { cn } from "@/lib/utils";
 import {
   Card,
@@ -22,11 +20,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Link from "next/link";
 import BuyButton from "./BuyButton";
+import { getUserSubscriptionPlan, handlePlanChange } from "@/lib/subscription";
+import { getCurrentUser } from "@/lib/session";
+import CancelButton from "./cancel-button";
 
 interface BillingFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  subscriptionPlan?: UserSubscriptionPlan & {
-    isCanceled?: boolean;
-  };
+  subscriptionPlan?: any;
 }
 
 export async function BillingForm({
@@ -34,12 +33,42 @@ export async function BillingForm({
   className,
   ...props
 }: BillingFormProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  //   const session = await getServerSession(authOptions);
-
   return (
     // <form className={cn(className)} {...props}>
     <>
+      <Card>
+        <CardHeader>
+          <CardTitle>Subscription Plan</CardTitle>
+          <CardDescription>
+            You are currently on the <strong>{subscriptionPlan.name}</strong>{" "}
+            plan.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>{subscriptionPlan.description}</CardContent>
+        <CardFooter className="flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0">
+          {/* {subscriptionPlan.name !== "FREE" && 
+                        <button
+                            onClick={(e) => openSession(e, subscriptionPlan.stripePriceId)}
+                            className={cn(buttonVariants())}
+                            disabled={isLoading}
+                        >
+                            {isLoading && (
+                                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                            )}
+                            Manage Subscription
+                        </button>
+} */}
+          {subscriptionPlan?.name !== "FREE" ? (
+            <p className="rounded-full text-xs font-medium">
+              {subscriptionPlan.isCanceled
+                ? "Your plan will be canceled on "
+                : "Your plan renews on "}
+              {formatDate(subscriptionPlan.lemonSqueezyPaymentRenewal)}.
+            </p>
+          ) : null}
+          <CancelButton id={subscriptionPlan?.lemonSqueezySubscriptionId} />
+        </CardFooter>
+      </Card>
       <Card className="border-0 shadow-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 flex-wrap gap-6 mt-8 md:gap-8">
           {[freePlan, basicPlan, proPlan].map((plan) => (
@@ -105,8 +134,54 @@ export async function BillingForm({
                   </ul>
                 </CardContent>
                 <CardFooter className="mt-auto align-bottom mx-auto">
-                  {plan.lemonSqueezyVariantId && (
-                    <BuyButton productId={plan.lemonSqueezyVariantId} />
+                  {subscriptionPlan?.name == "BASIC" && plan.name === "BASIC"}
+                  {plan.name === "BASIC" && plan.lemonSqueezyVariantId && (
+                    <>
+                      {subscriptionPlan?.name === "BASIC" ? (
+                        <>current plan</>
+                      ) : (
+                        <>
+                          {subscriptionPlan?.name !== "PRO" ? (
+                            <BuyButton productId={plan.lemonSqueezyVariantId} />
+                          ) : (
+                            <Button
+                              onClick={() => {
+                                handlePlanChange(
+                                  subscriptionPlan.lemonSqueezySubscriptionId,
+                                  plan.lemonSqueezyVariantId
+                                );
+                              }}
+                            >
+                              Upgrade
+                            </Button>
+                          )}
+                        </>
+                      )}
+                    </>
+                  )}
+                  {plan.name === "PRO" && plan.lemonSqueezyVariantId && (
+                    <>
+                      {subscriptionPlan?.name === "PRO" ? (
+                        <>current plan</>
+                      ) : (
+                        <>
+                          {subscriptionPlan?.name !== "BASIC" ? (
+                            <BuyButton productId={plan.lemonSqueezyVariantId} />
+                          ) : (
+                            <Button
+                              onClick={() => {
+                                handlePlanChange(
+                                  subscriptionPlan.lemonSqueezySubscriptionId,
+                                  plan.lemonSqueezyVariantId
+                                );
+                              }}
+                            >
+                              Upgrade
+                            </Button>
+                          )}
+                        </>
+                      )}
+                    </>
                   )}
                 </CardFooter>
               </Card>

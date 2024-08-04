@@ -1,67 +1,100 @@
 // // @ts-nocheck
 // // TODO: Fix this when we turn strict mode on.
 // import { UserSubscriptionPlan } from "@/types";
-// import {
-//   basicPlan,
-//   freePlan,
-//   hobbyPlan,
-//   legacyBasicPlan,
-//   proPlan,
-// } from "@/config/subscriptions";
-// import { db } from "@/lib/db";
-// import { stripe } from "@/lib/stripe";
+import {
+  basicPlan,
+  freePlan,
+  hobbyPlan,
+  legacyBasicPlan,
+  proPlan,
+} from "@/config/subscriptions";
+import { db } from "@/lib/db";
+import { UserSubscriptionPlan } from "@/types";
+import axios from "axios";
+import { lemonSqueezyApiInstance } from "./axios";
 
-// export async function getUserSubscriptionPlan(
-//   userId: string
-// ): Promise<UserSubscriptionPlan> {
-//   const user = await db.user.findFirst({
-//     where: {
-//       id: userId,
-//     },
-//     select: {
-//       stripeSubscriptionId: true,
-//       stripeCurrentPeriodEnd: true,
-//       stripeCustomerId: true,
-//       stripePriceId: true,
-//     },
-//   });
+export async function getUserSubscriptionPlan(userId: string) {
+  const user = await db.user.findFirst({
+    where: {
+      id: userId,
+    },
+    select: {
+      lemonSqueezyCustomerId: true,
+      lemonSqueezyPaymentInvoiceUrl: true,
+      lemonSqueezyPaymentRenewal: true,
+      lemonSqueezyPaymentSuccessId: true,
+      lemonSqueezyPaymentTotal: true,
+      lemonSqueezySubscriptionId: true,
+      lemonSqueezySubscriptionStatus: true,
+    },
+  });
 
-//   if (!user) {
-//     throw new Error("User not found");
-//   }
+  if (!user) {
+    throw new Error("User not found");
+  }
 
-//   const hasPlan =
-//     user.stripePriceId &&
-//     user.stripeCurrentPeriodEnd?.getTime() + 86_400_000 > Date.now();
+  const hasPlan =
+    user.lemonSqueezySubscriptionStatus &&
+    (user.lemonSqueezyPaymentRenewal as Date)?.getTime() + 86_400_000 >
+      Date.now();
+  console.log(
+    "okkk",
+    (user.lemonSqueezyPaymentRenewal as Date)?.getTime() + 86_400_000
+  );
 
-//   let plan = freePlan;
-//   if (hasPlan) {
-//     // console.log("hasplan", hasPlan);
+  let subscription: any;
 
-//     const subscription = await stripe.subscriptions.retrieve(
-//       user.stripeSubscriptionId
-//     );
+  let plan = freePlan;
+  if (hasPlan) {
+    // console.log("hasplan", hasPlan);
 
-//     console.log(subscription);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/subscription/${user?.lemonSqueezySubscriptionId}`
+      );
 
-//     if (subscription.plan.product === "prod_QZ0tynSupKB6YZ") {
-//       plan = proPlan;
-//     } else if (subscription.plan.product === "prod_QZ0s4o1Hdn6rcM") {
-//       plan = hobbyPlan;
-//     } else if (subscription.plan.nickname === "Basic plan") {
-//       // if subscription is created before 2024-05-01, it's a legacy plan
-//       console.log(subscription.created);
-//       if (subscription.created < 1717200000) {
-//         plan = legacyBasicPlan;
-//       } else {
-//         plan = basicPlan;
-//       }
-//     }
-//   }
+      subscription = response.data;
+    } catch (error) {
+      console.log(error);
+    }
 
-//   return {
-//     ...plan,
-//     ...user,
-//     stripeCurrentPeriodEnd: user.stripeCurrentPeriodEnd?.getTime(),
-//   };
-// }
+    if (subscription?.message.attributes.product_name === "PRO") {
+      plan = proPlan;
+    } else if (subscription?.message.attributes.product_name === "BASIC") {
+      plan = basicPlan;
+    }
+  }
+
+  return {
+    ...plan,
+    ...user,
+    lemonSqueezySubscriptionRenewsAt: subscription?.attributes
+      ?.renews_at as Date,
+  };
+}
+
+export async function handlePlanChange(
+  subscriptionId: string,
+  newVariantId: string
+) {
+  try {
+    const response = await fetch("/api/change-plan", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ subscriptionId, newVariantId }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to change plan");
+    }
+
+    const data = await response.json();
+    console.log("Plan changed successfully:", data);
+    // Handle successful plan change (e.g., update UI, show success message)
+  } catch (error) {
+    console.error("Error changing plan:", error);
+    // Handle error (e.g., show error message to user)
+  }
+}

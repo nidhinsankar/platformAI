@@ -6,6 +6,7 @@ import { BillingForm } from "@/components/billing-form";
 import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
 import { siteConfig } from "@/config/site";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 // import { getUserSubscriptionPlan } from "@/lib/subscription";
 
 export const metadata = {
@@ -20,6 +21,8 @@ export default async function BillingPage() {
     redirect(authOptions?.pages?.signIn || "/login");
   }
 
+  let currentSubscription = await getUserSubscriptionPlan(user.id!);
+
   return (
     <DashboardShell>
       <DashboardHeader
@@ -27,7 +30,7 @@ export default async function BillingPage() {
         text="Manage billing and your subscription plan. For more information about our plans, visit our documentation pricing page or you can ask our chatbot."
       />
 
-      <BillingForm />
+      <BillingForm subscriptionPlan={currentSubscription} />
     </DashboardShell>
   );
 }

@@ -9,7 +9,7 @@ import URL from "url";
 
 import { put } from "@vercel/blob";
 import OpenAI from "openai";
-// import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { RequiresHigherPlanError } from "@/lib/exceptions";
 import { Session } from "next-auth";
 
@@ -133,7 +133,7 @@ export async function GET(
     }
 
     const { user } = session as Session;
-    // const subscriptionPlan = await getUserSubscriptionPlan(user.id);
+    const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
     const count = await db.file.count({
       where: {
@@ -141,9 +141,9 @@ export async function GET(
       },
     });
 
-    // if (count >= subscriptionPlan.maxFiles) {
-    //   throw new RequiresHigherPlanError();
-    // }
+    if (count >= subscriptionPlan.maxFiles) {
+      throw new RequiresHigherPlanError();
+    }
 
     const openAIConfig = await db.openAIConfig.findUnique({
       select: {

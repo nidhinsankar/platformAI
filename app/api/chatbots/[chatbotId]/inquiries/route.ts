@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { RequiresHigherPlanError } from "@/lib/exceptions";
-// import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { inquirySchema } from "@/lib/validations/inquiry";
 import { z } from "zod";
 import { sendNewInquiryEmail } from "@/lib/emails/send-inquiry";
@@ -51,11 +51,13 @@ export async function POST(
       return new Response("Already exist", { status: 409 });
     }
 
-    // const subscriptionPlan = await getUserSubscriptionPlan(chatbot.userId || '')
+    const subscriptionPlan = await getUserSubscriptionPlan(
+      chatbot.userId || ""
+    );
 
-    // if (subscriptionPlan.basicCustomization === false) {
-    //     throw new RequiresHigherPlanError()
-    // }
+    if (subscriptionPlan.basicCustomization === false) {
+      throw new RequiresHigherPlanError();
+    }
 
     const id = await db.clientInquiries.create({
       data: {

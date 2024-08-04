@@ -3,7 +3,7 @@ import { authOptions } from "@/lib/auth";
 import * as z from "zod";
 
 import { db } from "@/lib/db";
-// import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { RequiresHigherPlanError } from "@/lib/exceptions";
 import { crawlerSchema } from "@/lib/validations/crawler";
 
@@ -44,17 +44,17 @@ export async function POST(req: Request) {
 
     // Validate user subscription plan
     const { user } = session;
-    // const subscriptionPlan = await getUserSubscriptionPlan(user.id)
+    const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
-    // const count = await db.crawler.count({
-    //     where: {
-    //         userId: user.id,
-    //     },
-    // })
+    const count = await db.crawler.count({
+      where: {
+        userId: user.id,
+      },
+    });
 
-    // if (count >= subscriptionPlan.maxCrawlers) {
-    //     throw new RequiresHigherPlanError()
-    // }
+    if (count >= subscriptionPlan.maxCrawlers) {
+      throw new RequiresHigherPlanError();
+    }
 
     const json = await req.json();
     const body = crawlerSchema.parse(json);

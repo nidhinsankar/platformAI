@@ -62,8 +62,8 @@ export type SiteConfig = {
 };
 
 export type UserSubscriptionPlan = SubscriptionPlan &
-  Pick<User, "stripeCustomerId" | "stripeSubscriptionId"> & {
-    stripeCurrentPeriodEnd: number;
+  Pick<User, "lemonSqueezyCustomerId  " | "lemonSqueezySubscriptionId  "> & {
+    lemonSqueezySubscriptionRenewsAt: Date;
   };
 
 export type ChatbotConfig = {

@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { chatbotSchema } from "@/lib/validations/chatbot";
 import OpenAI from "openai";
-// import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { RequiresHigherPlanError } from "@/lib/exceptions";
 import { fileTypes as codeFile } from "@/lib/validations/codeInterpreter";
 import { fileTypes as searchFile } from "@/lib/validations/fileSearch";
@@ -47,17 +47,17 @@ export async function POST(req: Request) {
 
     // Validate user subscription plan
     const { user } = session;
-    // const subscriptionPlan = await getUserSubscriptionPlan(user.id);
+    const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
-    // const count = await db.chatbot.count({
-    //   where: {
-    //     userId: user.id,
-    //   },
-    // });
+    const count = await db.chatbot.count({
+      where: {
+        userId: user.id,
+      },
+    });
 
-    // if (count >= subscriptionPlan.maxChatbots) {
-    //   throw new RequiresHigherPlanError();
-    // }
+    if (count >= subscriptionPlan.maxChatbots) {
+      throw new RequiresHigherPlanError();
+    }
 
     const json = await req.json();
     const body = chatbotSchema.parse(json);

@@ -51,6 +51,53 @@ export async function POST(req: Request) {
       }
     }
 
+    if (eventType === "subscription_cancelled") {
+      try {
+        await db.user.update({
+          where: {
+            email: body.data.attributes.user_email,
+          },
+          data: {
+            lemonSqueezyCustomerId: null,
+            lemonSqueezyPaymentInvoiceUrl: null,
+            lemonSqueezyPaymentTotal: null,
+            lemonSqueezyPaymentRenewal: null,
+            lemonSqueezyPaymentSuccessId: null,
+            lemonSqueezySubscriptionId: null,
+            lemonSqueezySubscriptionStatus: null,
+          },
+        });
+      } catch (error) {
+        console.log("error in subscription event", error);
+      }
+    }
+
+    if (eventType === "subscription_plan_changed") {
+      try {
+        await db.user.update({
+          where: {
+            email: body.data.attributes.user_email,
+          },
+          data: {
+            lemonSqueezyCustomerId: body.data.attributes.customer_id.toString(),
+            lemonSqueezyPaymentInvoiceUrl:
+              body.data.attributes.urls.invoice_url,
+            lemonSqueezyPaymentTotal: body.data.attributes.total.toString(),
+            lemonSqueezyPaymentRenewal: addDays(
+              body.data.attributes.created_at,
+              30
+            ),
+            lemonSqueezyPaymentSuccessId: body.data.id,
+            lemonSqueezySubscriptionId:
+              body.data.attributes.subscription_id.toString(),
+            lemonSqueezySubscriptionStatus: body.data.attributes.status,
+          },
+        });
+      } catch (error) {
+        console.log("error in subsrciption plan changes", error);
+      }
+    }
+
     return Response.json({ message: "Webhook received" });
   } catch (err) {
     console.error(err);

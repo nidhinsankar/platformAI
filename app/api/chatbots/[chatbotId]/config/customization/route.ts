@@ -1,7 +1,7 @@
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { RequiresHigherPlanError } from "@/lib/exceptions";
-// import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { customizationStringBackendSchema } from "@/lib/validations/customization";
 import { put } from "@vercel/blob";
 import { getServerSession } from "next-auth";
@@ -38,11 +38,13 @@ export async function PATCH(
       return new Response(null, { status: 403 });
     }
 
-    // const subscriptionPlan = await getUserSubscriptionPlan(session?.user?.id || '')
+    const subscriptionPlan = await getUserSubscriptionPlan(
+      session?.user?.id || ""
+    );
 
-    // if (subscriptionPlan.basicCustomization === false) {
-    //     throw new RequiresHigherPlanError()
-    // }
+    if (subscriptionPlan.basicCustomization === false) {
+      throw new RequiresHigherPlanError();
+    }
 
     const formData = await req.formData();
     const payload = customizationStringBackendSchema.parse(

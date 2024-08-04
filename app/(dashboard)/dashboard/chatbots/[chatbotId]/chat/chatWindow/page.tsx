@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Chat } from "@/components/chat";
 import { Chatbot } from "@prisma/client";
 import { db } from "@/lib/db";
-// import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { getClientIP } from "@/lib/getIP";
 import { Icons } from "@/components/icons";
 
@@ -47,25 +47,25 @@ export default async function ChatbotPage({ params }: ChatbotSettingsProps) {
     accessDenied = true;
   }
 
-  // const plan = await getUserSubscriptionPlan(chatbot.userId);
+  const plan = await getUserSubscriptionPlan(chatbot.userId);
 
   if (
-    chatbot.displayBranding === false
-    // plan?.brandingCustomization === false
+    chatbot.displayBranding === false &&
+    plan?.brandingCustomization === false
   ) {
     chatbot.displayBranding = true;
   }
 
   if (
-    chatbot.chatFileAttachementEnabled
-    // plan?.chatFileAttachments === false
+    chatbot.chatFileAttachementEnabled &&
+    plan?.chatFileAttachments === false
   ) {
     chatbot.chatFileAttachementEnabled = false;
   }
 
-  // if (chatbot.chatbotLogoURL !== "" && plan?.basicCustomization === false) {
-  //   chatbot.chatbotLogoURL = null;
-  // }
+  if (chatbot.chatbotLogoURL !== "" && plan?.basicCustomization === false) {
+    chatbot.chatbotLogoURL = null;
+  }
 
   if (accessDenied) {
     return (

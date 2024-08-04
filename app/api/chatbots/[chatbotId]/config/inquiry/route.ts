@@ -1,7 +1,7 @@
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { RequiresHigherPlanError } from "@/lib/exceptions";
-// import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { inquiryCustomizationSchema } from "@/lib/validations/inquiryCustomization";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
@@ -37,11 +37,13 @@ export async function PATCH(
       return new Response(null, { status: 403 });
     }
 
-    // const subscriptionPlan = await getUserSubscriptionPlan(session?.user?.id || '')
+    const subscriptionPlan = await getUserSubscriptionPlan(
+      session?.user?.id || ""
+    );
 
-    // if (subscriptionPlan.userInquiries === false) {
-    //     throw new RequiresHigherPlanError()
-    // }
+    if (subscriptionPlan.userInquiries === false) {
+      throw new RequiresHigherPlanError();
+    }
 
     const body = await req.json();
     const payload = inquiryCustomizationSchema.parse(body);
