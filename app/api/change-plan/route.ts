@@ -1,7 +1,7 @@
 import { lemonSqueezyApiInstance } from "@/lib/axios";
 import { NextResponse } from "next/server";
 
-export async function UpdateUserSubscriptionPlan(req: Request) {
+export async function PATCH(req: Request) {
   try {
     const body = await req.json();
     const { subscriptionId, newVariantId } = body;
