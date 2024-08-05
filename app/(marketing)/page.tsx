@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { GithubCard } from "@/components/github-card";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -47,14 +47,14 @@ export default function IndexPage() {
       text: "Chatbot.",
       className: "text-orange-500 dark:text-orange-500",
     },
-  ]
+  ];
   return (
     <>
       <section
         data-aos="fade-up"
         className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 py-12 md:py-24 lg:py-24"
       >
-        <div className="container flex max-w-[58rem] flex-col items-center gap-4 text-center">
+        <div className="container flex w-full px-2 md:max-w-[60rem] flex-col items-center gap-4 text-center">
           <Link
             href={siteConfig.links.twitter}
             className="rounded-2xl border shadow-md bg-muted px-4 py-1.5 text-sm font-medium hover:text-white hover:bg-orange-500"
@@ -62,9 +62,8 @@ export default function IndexPage() {
           >
             Find us on 𝕏
           </Link>
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-            Build Your Own AI <FlipWords wording={wording} />{" "}
-            Representative
+          <h1 className="font-heading text-3xl w-full sm:text-5xl md:text-6xl lg:text-7xl">
+            Build Your Own AI <FlipWords wording={wording} /> Representative
           </h1>
           <p className="max-w-[55rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
             Transform your sales process with personalized AI driven chatbots.
@@ -106,7 +105,7 @@ export default function IndexPage() {
         className="container py-12 md:py-24 lg:py-24"
       >
         <div className="flex flex-col items-center justify-center space-y-4 md:space-y-6">
-          <div className="space-y-6 max-w-[55rem] text-center">
+          <div className="space-y-6 w-full px-2 md:max-w-[55rem] text-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Accurate, instantaneous and human-like chat responses
             </h2>
@@ -135,7 +134,7 @@ export default function IndexPage() {
         id="features"
         className="container space-y-6 py-12 md:py-24 lg:py-24 bg-gray-100 rounded-lg"
       >
-        <div className="mx-auto flex max-w-[64rem] flex-col items-start space-y-4">
+        <div className="mx-auto flex w-full px-2 md:max-w-[64rem] flex-col items-start space-y-4">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
             Features
           </h2>
@@ -633,9 +632,8 @@ export default function IndexPage() {
         id="faq"
         className="container space-y-6 py-12 md:py-24 lg:py-24"
       >
-        
         <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center bg-gray-200 h-[350px] rounded-lg gap-y-7 text-center">
-        <TypewriterEffectSmooth words={words} />
+          <TypewriterEffectSmooth words={words} />
           <h2>Maximize your support capacity without extra hiring</h2>
           <Link
             href="/login"
