@@ -22,9 +22,9 @@ export const marketingConfig: MarketingConfig = {
       title: "Documentation",
       href: "/docs",
     },
-    {
-      title: "Changelog",
-      href: "/changelog",
-    },
+    // {
+    //   title: "Changelog",
+    //   href: "/changelog",
+    // },
   ],
 };

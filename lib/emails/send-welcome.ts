@@ -1,3 +1,4 @@
+"use server";
 import WelcomeEmail from "@/emails/welcome";
 import { siteConfig } from "@/config/site";
 import { email as EmailClient } from "@/lib/email";

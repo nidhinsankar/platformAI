@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
         name: message.user.name,
         email: message.user.email,
       };
-      await sendWelcomeEmail(params);
+      // await sendWelcomeEmail(params);
     },
   },
 };
