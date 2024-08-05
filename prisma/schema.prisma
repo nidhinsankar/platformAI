@@ -1,0 +1,351 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_DIRECT_URL")
+}
+
+model OpenAIConfig {
+  id           String   @id @default(cuid()) @db.VarChar(30)
+  userId       String   @unique
+  globalAPIKey String
+  createdAt    DateTime @default(now()) @map("created_at")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ChatbotFiles {
+  id         String   @id @default(cuid())
+  assignedAt DateTime @default(now())
+  chatbotId  String
+  fileId     String
+  chatbot    Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  file       File     @relation(fields: [fileId], references: [id], onDelete: Cascade)
+}
+
+model ChatbotMessagesExport {
+  id              String   @id @default(cuid()) @db.VarChar(30)
+  createdAt       DateTime @default(now()) @map("created_at")
+  blobUrl         String
+  blobDownloadUrl String
+  lastXDays       Int
+  chatbotId       String
+  chatbot         Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+}
+
+model ChatbotErrors {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now()) @map("created_at")
+  errorMessage String
+  threadId     String
+  chatbotId    String
+  chatbot      Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+}
+
+model Chatbot {
+  id                              String                  @id @default(cuid()) @db.VarChar(30)
+  name                            String
+  userId                          String
+  openaiId                        String
+  createdAt                       DateTime                @default(now()) @map("created_at")
+  openaiKey                       String
+  modelId                         String?
+  prompt                          String?
+  welcomeMessage                  String
+  chatbotErrorMessage             String                  @default("Oops! An error has occurred. If the issue persists, feel free to reach out to our support team for assistance. We're here to help!")
+  isImported                      Boolean                 @default(false)
+  chatTitle                       String                  @default("Chat with us")
+  chatMessagePlaceHolder          String                  @default("Type a message...")
+  rightToLeftLanguage             Boolean                 @default(false)
+  bubbleColor                     String                  @default("#FFFFFF")
+  bubbleTextColor                 String                  @default("#000000")
+  chatHeaderBackgroundColor       String                  @default("#FFFFFF")
+  chatHeaderTextColor             String                  @default("#000000")
+  chatbotReplyBackgroundColor     String                  @default("#e4e4e7")
+  chatbotReplyTextColor           String                  @default("#000000")
+  userReplyBackgroundColor        String                  @default("#e4e4e7")
+  userReplyTextColor              String                  @default("#000000")
+  chatbotLogoURL                  String?
+  chatInputStyle                  String                  @default("default")
+  inquiryEnabled                  Boolean                 @default(false)
+  inquiryLinkText                 String                  @default("Contact our support team")
+  inquiryTitle                    String                  @default("Contact our support team")
+  inquirySubtitle                 String                  @default("Our team is here to help you with any questions you may have. Please provide us with your email and a brief message so we can assist you.")
+  inquiryEmailLabel               String                  @default("Email")
+  inquiryMessageLabel             String                  @default("Message")
+  inquirySendButtonText           String                  @default("Send message")
+  inquiryAutomaticReplyText       String                  @default("Your inquiry has been sent. Our team will get back to you shortly.")
+  inquiryDisplayLinkAfterXMessage Int                     @default(1)
+  chatHistoryEnabled              Boolean                 @default(false)
+  displayBranding                 Boolean                 @default(true)
+  chatFileAttachementEnabled      Boolean                 @default(false)
+  maxCompletionTokens             Int?
+  maxPromptTokens                 Int?
+  bannedIps                       String[]                @default([])
+  allowEveryone                   Boolean                 @default(true)
+  allowedIpRanges                 String[]                @default([])
+  ChatbotErrors                   ChatbotErrors[]
+  ChatbotFiles                    ChatbotFiles[]
+  ChatbotMessagesExport           ChatbotMessagesExport[]
+  ClientInquiries                 ClientInquiries[]
+  Domain                          Domain[]
+  model                           ChatbotModel?           @relation(fields: [modelId], references: [id])
+  user                            User                    @relation(fields: [userId], references: [id])
+
+  @@map("chatbots")
+}
+
+model File {
+  id           String         @id @default(cuid()) @db.VarChar(30)
+  userId       String
+  name         String
+  openAIFileId String         @unique
+  createdAt    DateTime       @default(now()) @map("created_at")
+  blobUrl      String
+  crawlerId    String?
+  ChatbotFiles ChatbotFiles[]
+  crawler      Crawler?       @relation(fields: [crawlerId], references: [id], onDelete: Cascade)
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("files")
+}
+
+model ChatbotModel {
+  id      String    @id @default(cuid()) @db.VarChar(30)
+  name    String
+  Chatbot Chatbot[]
+
+  @@map("models")
+}
+
+model ClientInquiries {
+  id        String    @id @default(cuid()) @db.VarChar(30)
+  createdAt DateTime  @default(now())
+  threadId  String
+  email     String
+  inquiry   String
+  chatbotId String
+  deletedAt DateTime?
+  chatbot   Chatbot   @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id        String   @id @default(cuid()) @db.VarChar(30)
+  message   String
+  createdAt DateTime @default(now()) @map("created_at")
+  response  String
+  threadId  String   @default("")
+  from      String   @default("unknown")
+  userIP    String?
+  userId    String
+  chatbotId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+model Crawler {
+  id              String   @id @default(cuid()) @db.VarChar(30)
+  name            String
+  createdAt       DateTime @default(now()) @map("created_at")
+  userId          String
+  crawlUrl        String
+  urlMatch        String
+  selector        String
+  maxPagesToCrawl Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  File            File[]
+
+  @@map("crawlers")
+}
+
+model Account {
+  id                String  @id @default(cuid()) @db.VarChar(30)
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid()) @db.VarChar(30)
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+
+  accounts     Account[]
+  sessions     Session[]
+  Chatbot      Chatbot[]
+  Crawler      Crawler[]
+  OpenAIConfig OpenAIConfig[]
+  File         File[]
+
+  Message                  Message[]
+
+  lemonSqueezyPaymentSuccessId     String?  @unique @map(name: "payment_sucess_id")
+  lemonSqueezyPaymentInvoiceUrl    String?  @unique @map(name: "invoice_url")
+  lemonSqueezyPaymentTotal         String?  
+  lemonSqueezyCustomerId           String?
+  lemonSqueezySubscriptionId       String?
+  lemonSqueezySubscriptionStatus   String?
+  lemonSqueezyPaymentRenewal       DateTime?
+
+  inquiryEmailEnabled   Boolean    @default(true)
+  marketingEmailEnabled Boolean    @default(true)
+  Domain                Domain[]
+  Billings              Billings?
+  Campaign              Campaign[]
+}
+
+model CustomerResponses {
+  id         String   @id @default(cuid()) @db.VarChar(30)
+  question   String
+  answered   String?
+  customerId String   @db.VarChar(30)
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+}
+
+model ChatMessage {
+  id         String    @id @default(cuid()) @db.VarChar(30)
+  message    String
+  role       Role?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  chatRoomId String?   @db.VarChar(30)
+  seen       Boolean   @default(false)
+  ChatRoom   ChatRoom? @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+}
+
+model Bookings {
+  id         String    @id @default(cuid()) @db.VarChar(30)
+  date       DateTime
+  slot       String
+  email      String
+  customerId String?   @db.VarChar(30)
+  domainId   String?   @db.VarChar(30)
+  createdAt  DateTime  @default(now())
+  Customer   Customer? @relation(fields: [customerId], references: [id], onDelete: Cascade)
+}
+
+model ChatRoom {
+  id         String        @id @default(cuid()) @db.VarChar(30)
+  live       Boolean       @default(false)
+  mailed     Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  customerId String?       @db.VarChar(30)
+  message    ChatMessage[]
+  Customer   Customer?     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+}
+
+model HelpDesk {
+  id       String  @id @default(cuid()) @db.VarChar(30)
+  question String
+  answer   String
+  domainId String? @db.VarChar(30)
+  Domain   Domain? @relation(fields: [domainId], references: [id], onDelete: Cascade)
+}
+
+model FilterQuestions {
+  id       String  @id @default(cuid()) @db.VarChar(30)
+  question String
+  answered String?
+  domainId String? @db.VarChar(30)
+  Domain   Domain? @relation(fields: [domainId], references: [id], onDelete: Cascade)
+}
+
+model Customer {
+  id        String              @id @default(cuid()) @db.VarChar(30)
+  email     String?
+  domainId  String?             @db.VarChar(30)
+  booking   Bookings[]
+  chatRoom  ChatRoom[]
+  Domain    Domain?             @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  questions CustomerResponses[]
+}
+
+model Product {
+  id        String   @id @default(cuid()) @db.VarChar(30)
+  name      String
+  price     Int
+  image     String
+  createdAt DateTime @default(now())
+  domainId  String?  @db.VarChar(30)
+  Domain    Domain?  @relation(fields: [domainId], references: [id], onDelete: Cascade)
+}
+
+model Domain {
+  id              String            @id @default(cuid()) @db.VarChar(30)
+  name            String
+  icon            String
+  userId          String?           @db.VarChar(30)
+  campaignId      String?           @db.VarChar(30)
+  chatbotId       String?
+  customer        Customer[]
+  Campaign        Campaign?         @relation(fields: [campaignId], references: [id])
+  chatBot         Chatbot?          @relation(fields: [chatbotId], references: [id])
+  User            User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  filterQuestions FilterQuestions[]
+  helpdesk        HelpDesk[]
+  products        Product[]
+}
+
+model Billings {
+  id      String  @id @default(cuid()) @db.VarChar(30)
+  plan    Plans   @default(STANDARD)
+  credits Int     @default(10)
+  userId  String? @unique @db.VarChar(30)
+  User    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Campaign {
+  id        String   @id @default(cuid()) @db.VarChar(30)
+  name      String
+  customers String[]
+  template  String?
+  userId    String?  @db.VarChar(30)
+  createdAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  domain    Domain[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum Plans {
+  STANDARD
+  PRO
+  ULTIMATE
+}
+
+enum Role {
+  user
+  assistant
+}
