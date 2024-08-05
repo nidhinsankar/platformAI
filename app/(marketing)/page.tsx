@@ -632,14 +632,14 @@ export default function IndexPage() {
         id="faq"
         className="container space-y-6 py-12 md:py-24 lg:py-24"
       >
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center bg-gray-200 h-[350px] rounded-lg gap-y-7 text-center">
+        <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center bg-gray-200 py-5 md:h-[350px] rounded-lg text-center">
           <TypewriterEffectSmooth words={words} />
           <h2>Maximize your support capacity without extra hiring</h2>
           <Link
             href="/login"
             className={cn(
               buttonVariants({ size: "lg" }),
-              "bg-primary hover:bg-orange-500"
+              "bg-primary hover:bg-orange-500 mt-5"
             )}
           >
             <Icons.bot className="h-4 w-4 mr-2"></Icons.bot>
