@@ -18,7 +18,7 @@ Supabase – database
 
 NextAuth.js – auth
 
-Stripe – payments
+Lemon Squeezy – payments
 
 Resend – emails
 
