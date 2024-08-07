@@ -58,9 +58,9 @@ export async function getUserSubscriptionPlan(userId: string) {
       console.log(error);
     }
 
-    if (subscription?.message.attributes.product_name === "PRO") {
+    if (subscription?.message?.attributes?.product_name === "PRO") {
       plan = proPlan;
-    } else if (subscription?.message.attributes.product_name === "BASIC") {
+    } else if (subscription?.message?.attributes?.product_name === "BASIC") {
       plan = basicPlan;
     }
   }

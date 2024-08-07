@@ -24,7 +24,8 @@ export const proPlan: SubscriptionPlan = {
   name: "PRO",
   description:
     "The PRO plan has 27 chatbots, 27 crawlers and 81 files and unlimited messages.",
-  lemonSqueezyVariantId: "468650",
+  // lemonSqueezyVariantId: "468650",
+  lemonSqueezyVariantId: "476915",
 
   maxChatbots: 27,
   maxCrawlers: 27,
@@ -45,8 +46,8 @@ export const basicPlan: SubscriptionPlan = {
   name: "BASIC",
   description:
     "The BASIC plan has 9 chatbots, 9 crawlers and 27 files and unlimited messages.",
-  lemonSqueezyVariantId: "468635",
-
+  // lemonSqueezyVariantId: "468635",
+  lemonSqueezyVariantId: "476910",
   maxChatbots: 9,
   maxCrawlers: 9,
   maxFiles: 27,

@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 
 const BuyButton = ({ productId }: { productId: string }) => {
   const checkOut = async () => {
-    const checkoutUrl = await axios.post("/api/purchase", {
+    const checkoutUrl = await axios.post(`/api/purchase`, {
       productId: productId,
     });
     console.log(checkoutUrl, "checkour");
