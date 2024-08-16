@@ -26,7 +26,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             name: session?.user.name,
           },
           product_options: {
-            redirect_url: "http://localhost:3000/dashboard/billing",
+            redirect_url: `${process.env.APP_URL}/dashboard/billing`,
           },
         },
         relationships: {

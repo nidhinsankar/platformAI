@@ -28,7 +28,7 @@ export function MainNavMarketing({ items, children }: MainNavMarketingProps) {
         <Icons.bot />
         <Link href="/" className="hidden items-center space-x-2 md:flex">
           <span className="hidden font-bold sm:inline-block">
-          Platform <span className="text-orange-500">AI</span>
+            Platform <span className="text-orange-500">AI</span>
           </span>
         </Link>
       </div>
@@ -91,11 +91,11 @@ export function MainNavDashboard({ items, children }: MainNavMarketingProps) {
     <div className="flex gap-6 md:gap-10 w-full">
       <div className="flex justify-center items-center gap-2">
         <Icons.bot />
-        <Link href="/" className="hidden items-center space-x-2 md:flex">
+        <h2 className="hidden items-center space-x-2 md:flex">
           <span className="hidden font-bold sm:inline-block">
             {siteConfig.name}
           </span>
-        </Link>
+        </h2>
       </div>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex ">

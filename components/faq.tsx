@@ -11,10 +11,7 @@ import {
 
 export function FAQ() {
   return (
-    <Accordion
-      className="w-full mt-4 bg-gray-200 px-4 py-2 rounded-lg"
-      type="multiple"
-    >
+    <Accordion className="w-full mt-4  px-4 py-2 rounded-lg" type="multiple">
       <AccordionItem value="item-0">
         <AccordionTrigger className="hover:underline-none">
           What is PlatformAI?

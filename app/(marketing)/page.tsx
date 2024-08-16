@@ -23,8 +23,12 @@ import { BorderBeam } from "@/components/magicui/border-beam";
 import { TypewriterEffectSmooth } from "@/components/magicui/typewriter-effect";
 import { FlipWords } from "@/components/magicui/flip-words";
 import { AnimatedBeamMultipleOutputDemo } from "@/components/compatible-section";
+import { getCurrentUser } from "@/lib/session";
+import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function IndexPage() {
+  // const { data: session } = useSession();
   const wording = ["sales", "brand", "custom"];
   const words = [
     {
@@ -48,6 +52,9 @@ export default function IndexPage() {
       className: "text-orange-500 dark:text-orange-500",
     },
   ];
+  // if (session) {
+  //   redirect("/dashboard");
+  // }
   return (
     <>
       <section

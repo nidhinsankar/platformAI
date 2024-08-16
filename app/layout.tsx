@@ -13,6 +13,8 @@ import { AOSInit } from "@/components/aos-init";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { constructMetadata } from "@/lib/construct-metadata";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { AuthProvider } from "@/context/AuthProvider";
+import { getCurrentUser } from "@/lib/session";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -32,6 +34,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getCurrentUser();
   return (
     <html lang="en suppressHydrationWarning">
       <head>
@@ -58,7 +61,9 @@ export default async function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <TooltipProvider>
+            {/* <AuthProvider refetchInterval={5 * 60}> */}
             {children}
+            {/* </AuthProvider> */}
             <Toaster />
             {process.env.VERCEL_ENV === "production" ? <Analytics /> : <></>}
           </TooltipProvider>
