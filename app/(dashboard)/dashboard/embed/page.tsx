@@ -12,6 +12,8 @@ import { Icons } from "@/components/icons";
 import { CodeBlock } from "@/components/ui/codeblock";
 import { siteConfig } from "@/config/site";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { EmptyPlaceholder } from "@/components/empty-placeholder";
+import { ChatbotCreateButton } from "@/components/chatbot-create-button";
 
 interface ChatbotSettingsProps {
   params: { chatbotId: string };
@@ -38,7 +40,24 @@ export default async function EmbedOnSitePage({
   const chatbot = await getChatbotForUser(params.chatbotId, user.id);
 
   if (!chatbot) {
-    notFound();
+    return (
+      <DashboardShell>
+        <DashboardHeader
+          heading="Embed On Website"
+          text="Make your chatbot publicly accessible for users."
+        >
+          <ChatbotCreateButton />
+        </DashboardHeader>
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="CodeIcon" />
+          <EmptyPlaceholder.Title>No Embed Code</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Create Chatbot to get embed code.
+          </EmptyPlaceholder.Description>
+          <ChatbotCreateButton variant="outline" />
+        </EmptyPlaceholder>
+      </DashboardShell>
+    );
   }
 
   return (

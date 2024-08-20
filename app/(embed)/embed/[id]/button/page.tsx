@@ -1,6 +1,6 @@
-import ChatbotButton from '@/components/chatbot-button';
-import { db } from '@/lib/db';
-import { notFound } from 'next/navigation';
+import ChatbotButton from "@/components/chatbot-button";
+import { db } from "@/lib/db";
+import { notFound } from "next/navigation";
 
 export interface ChatComponentProps {
   params: { id: string };
@@ -15,8 +15,8 @@ export default async function Button({ params }: ChatComponentProps) {
 
   const chatbot = await db.chatbot.findUnique({
     where: {
-      id: params.id
-    }
+      id: params.id,
+    },
   });
 
   if (!chatbot) {
@@ -24,6 +24,11 @@ export default async function Button({ params }: ChatComponentProps) {
   }
 
   return (
-    <ChatbotButton textColor={chatbot?.bubbleTextColor} backgroundColor={chatbot?.bubbleColor} />
-  )
+    <>
+      <ChatbotButton
+        textColor={chatbot?.bubbleTextColor}
+        backgroundColor={chatbot?.bubbleColor}
+      />
+    </>
+  );
 }

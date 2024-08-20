@@ -47,12 +47,14 @@ import {
   PanelRightClose,
   PanelLeftClose,
   CheckCircle,
+  HelpCircleIcon,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
 
 export const Icons = {
   lock: Lock,
+  // help: HelpCircleIcon,
   document: File,
   checkCircle: CheckCircle,
   rightpanelclose: PanelRightClose,

@@ -14,5 +14,9 @@ export default function Chat({ params, searchParams }: ChatComponentProps) {
 
   console.log(params, searchParams);
 
-  return <ChatWindow params={{ chatbotId: params.id }} />;
+  return (
+    <>
+      <ChatWindow params={{ chatbotId: params.id }} />;
+    </>
+  );
 }
