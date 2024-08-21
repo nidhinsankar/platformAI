@@ -64,7 +64,7 @@ export function ChatbotCreateButton({
   }
 
   return (
-    <div>
+    <div className="flex items-center gap-2 sm:gap-4">
       <TooltipDemo />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -121,8 +121,23 @@ export function TooltipDemo() {
         <TooltipTrigger asChild>
           <Icons.help />
         </TooltipTrigger>
-        <TooltipContent>
-          <p>Add to library</p>
+        <TooltipContent
+          side="bottom"
+          className="w-full max-w-[90vw] md:max-w-[300px] flex flex-col  gap-3 mt-3 bg-white text-primary px-2 shadow-lg"
+        >
+          <h2>Tips to improve your chatbot responses!</h2>
+          <p>
+            1. Experiment with changing the chatbot's instructions by being very
+            clear on its role, name, goal, behaviour, etc...
+          </p>
+          <p>
+            2. Revise answers that you don't like to teach the chatbot how to
+            respond to similar questions in the future
+          </p>
+          <p>
+            3. Experiment with the different models to see which works for
+            better for your chatbot. For more information, check out our guide!
+          </p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
