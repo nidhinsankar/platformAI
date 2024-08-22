@@ -127,12 +127,12 @@ export function TooltipDemo() {
         >
           <h2>Tips to improve your chatbot responses!</h2>
           <p>
-            1. Experiment with changing the chatbot's instructions by being very
-            clear on its role, name, goal, behaviour, etc...
+            1. Experiment with changing the chatbot&apos;s instructions by being
+            very clear on its role, name, goal, behaviour, etc...
           </p>
           <p>
-            2. Revise answers that you don't like to teach the chatbot how to
-            respond to similar questions in the future
+            2. Revise answers that you don&apos;t like to teach the chatbot how
+            to respond to similar questions in the future
           </p>
           <p>
             3. Experiment with the different models to see which works for
