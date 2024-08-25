@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { eventGA } from "@/lib/googleAnalytics";
-import { cn } from "@/lib/utils";
+import { cn, getPromptForSelection } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -24,6 +24,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Select as PromptSelect,
+} from "./ui/select";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { Icons } from "@/components/icons";
@@ -39,6 +46,13 @@ interface NewChatbotProps extends React.HTMLAttributes<HTMLElement> {
   isOnboarding: boolean;
   user: Pick<User, "id">;
 }
+const promptList = [
+  { label: "AI Assistant", value: "ai-assistant" },
+  { label: "Coding Assistant", value: "coding-assistant" },
+  { label: "Custom prompt", value: "custom-prompt" },
+  { label: "Customer Assistant", value: "customer-assistant" },
+  { label: "Sales Assistant", value: "sales-assistant" },
+];
 
 export function NewChatbotForm({
   isOnboarding,
@@ -50,6 +64,7 @@ export function NewChatbotForm({
     resolver: zodResolver(chatbotSchema),
     defaultValues: {
       welcomeMessage: "Hello, how can I help you?",
+      selectedPrompt: "custom-prompt",
       prompt:
         "You are an assistant you help users that visit our website, keep it short, always refer to the documentation provided and never ask for more information.",
       chatbotErrorMessage:
@@ -119,6 +134,7 @@ export function NewChatbotForm({
       body: JSON.stringify({
         name: data.name,
         prompt: data.prompt,
+        selectedPrompt: data.selectedPrompt,
         openAIKey: data.openAIKey,
         welcomeMessage: data.welcomeMessage,
         chatbotErrorMessage: data.chatbotErrorMessage,
@@ -208,6 +224,38 @@ export function NewChatbotForm({
                     start a conversation
                   </FormDescription>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="selectedPrompt"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select Prompt</FormLabel>
+                  <PromptSelect
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      // Update the prompt field value based on the selected prompt
+                      const newPrompt = getPromptForSelection(value);
+                      form.setValue("prompt", newPrompt);
+                    }}
+                    value={field.value}
+                  >
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder="Select Prompt"
+                        defaultValue={field.value}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {promptList.map((prompt) => (
+                        <SelectItem key={prompt.value} value={prompt.value}>
+                          {prompt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </PromptSelect>
                 </FormItem>
               )}
             />

@@ -181,6 +181,7 @@ export async function POST(req: Request) {
       data: {
         name: body.name,
         prompt: body.prompt,
+        selectedPrompt: body.selectedPrompt,
         openaiKey: body.openAIKey,
         openaiId: createdChatbot.id,
         modelId: model.id,
