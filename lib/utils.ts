@@ -43,6 +43,21 @@ export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+export function getPromptForSelection(selection: string): string {
+  switch (selection) {
+    case "sales-assistant":
+      return "You are a sales assistant. Help users with product information and purchasing decisions.";
+    case "ai-assistant":
+      return "You are an AI assistant. Provide general help and information on various topics.";
+    case "coding-assistant":
+      return "You are a coding assistant. Help users with programming-related questions and issues.";
+    case "customer-assistant":
+      return "You are a customer service assistant. Help users with their inquiries and resolve their issues.";
+    default:
+      return "You are an assistant you help users that visit our website, keep it short, always refer to the documentation provided and never ask for more information.";
+  }
+}
+
 export function absoluteUrl(path: string) {
   return `${siteConfig.url}${path}`;
 }

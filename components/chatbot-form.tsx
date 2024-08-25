@@ -7,7 +7,7 @@ import { Chatbot, File, ChatbotModel, User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { cn } from "@/lib/utils";
+import { cn, getPromptForSelection } from "@/lib/utils";
 import { chatbotSchema } from "@/lib/validations/chatbot";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -33,6 +33,13 @@ import {
 import Select from "react-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "./ui/switch";
+import {
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Select as PromptSelect,
+} from "./ui/select";
 
 interface ChatbotFormProps extends React.HTMLAttributes<HTMLFormElement> {
   chatbot: Pick<
@@ -47,6 +54,7 @@ interface ChatbotFormProps extends React.HTMLAttributes<HTMLFormElement> {
     | "chatbotErrorMessage"
     | "isImported"
     | "rightToLeftLanguage"
+    | "selectedPrompt"
   >;
   currentFiles: File["id"][];
   models: ChatbotModel[];
@@ -55,6 +63,14 @@ interface ChatbotFormProps extends React.HTMLAttributes<HTMLFormElement> {
 }
 
 type FormData = z.infer<typeof chatbotSchema>;
+
+const promptList = [
+  { label: "AI Assistant", value: "ai-assistant" },
+  { label: "Coding Assistant", value: "coding-assistant" },
+  { label: "Custom prompt", value: "custom-prompt" },
+  { label: "Customer Assistant", value: "customer-assistant" },
+  { label: "Sales Assistant", value: "sales-assistant" },
+];
 
 export function ChatbotForm({
   chatbot,
@@ -72,6 +88,7 @@ export function ChatbotForm({
       openAIKey: chatbot.openaiKey,
       welcomeMessage: chatbot.welcomeMessage,
       chatbotErrorMessage: chatbot.chatbotErrorMessage,
+      selectedPrompt: chatbot.selectedPrompt || "custom-prompt",
       prompt: chatbot.prompt as string,
       modelId: chatbot.modelId!,
       files: currentFiles,
@@ -116,6 +133,7 @@ export function ChatbotForm({
         modelId: data.modelId,
         welcomeMessage: data.welcomeMessage,
         chatbotErrorMessage: data.chatbotErrorMessage,
+        selectedPrompt: data.selectedPrompt,
         prompt: data.prompt,
         files: data.files,
         rightToLeftLanguage: data.rightToLeftLanguage,
@@ -204,15 +222,40 @@ export function ChatbotForm({
             />
             <FormField
               control={form.control}
+              name="selectedPrompt"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select Prompt</FormLabel>
+                  <PromptSelect
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      // Update the prompt field value based on the selected prompt
+                      const newPrompt = getPromptForSelection(value);
+                      form.setValue("prompt", newPrompt);
+                    }}
+                    value={field.value}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Prompt" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {promptList.map((prompt) => (
+                        <SelectItem key={prompt.value} value={prompt.value}>
+                          {prompt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </PromptSelect>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="prompt"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="prompt">Prompt</FormLabel>
-                  <Textarea
-                    defaultValue={chatbot.prompt as string}
-                    onChange={field.onChange}
-                    id="prompt"
-                  />
+                  <Textarea {...field} id="prompt" />
                   <FormDescription>
                     This is the prompt that will be sent to OpenAI, here&apos;s
                     and example: &quot;You are an assistant you help users that
@@ -260,7 +303,6 @@ export function ChatbotForm({
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="modelId"
