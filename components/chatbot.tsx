@@ -94,13 +94,13 @@ export default function Chatbot() {
       return (
         <>
           <iframe
-            src={`${siteConfig.url}/embed/clz57zkox0001t6eur502hs8m/button?chatbox=false`}
+            src={`${siteConfig.url}/embed/undefined/button?chatbox=false`}
             scrolling="no"
             id="PlatformAI-chatbot-button-iframe"
             className="fixed bottom-0 right-0 mb-4 z-50  bg-red-400 items-end inline-block mr-4 w-14 h-14 border border-gray-300 rounded-full shadow-md"
           ></iframe>
           <iframe
-            src={`${siteConfig.url}/embed/clz57zkox0001t6eur502hs8m/window?chatbox=false&withExitX=true`}
+            src={`${siteConfig.url}/embed/undefined/window?chatbox=false&withExitX=true`}
             style={customStyle}
             allowFullScreen
             className="z-50"

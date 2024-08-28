@@ -29,7 +29,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Select as PromptSelect,
+  Select as SelectUI,
 } from "./ui/select";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
@@ -39,6 +39,7 @@ import { ChatbotModel, File, User } from "@prisma/client";
 import Select from "react-select";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
+import { CHATBOT_TEMPLATES, promptList, TEMPLATES_LIST } from "@/lib/constants";
 
 type FormData = z.infer<typeof chatbotSchema>;
 
@@ -46,13 +47,6 @@ interface NewChatbotProps extends React.HTMLAttributes<HTMLElement> {
   isOnboarding: boolean;
   user: Pick<User, "id">;
 }
-const promptList = [
-  { label: "AI Assistant", value: "ai-assistant" },
-  { label: "Coding Assistant", value: "coding-assistant" },
-  { label: "Custom prompt", value: "custom-prompt" },
-  { label: "Customer Assistant", value: "customer-assistant" },
-  { label: "Sales Assistant", value: "sales-assistant" },
-];
 
 export function NewChatbotForm({
   isOnboarding,
@@ -76,6 +70,7 @@ export function NewChatbotForm({
   const [availablesModels, setAvailablesModels] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [selectTemplate, setSelectTemplate] = useState("");
 
   useEffect(() => {
     const init = async () => {
@@ -96,6 +91,37 @@ export function NewChatbotForm({
     };
     init();
   }, []);
+
+  const applyTemplate = (templateId: string) => {
+    console.log("it is called");
+
+    const chatbotTemplate = CHATBOT_TEMPLATES.find(
+      (template) => template.templateId === templateId
+    );
+    if (chatbotTemplate) {
+      form.setValue("name", chatbotTemplate.name);
+      form.setValue("selectedPrompt", chatbotTemplate.selectedPrompt);
+      form.setValue("prompt", chatbotTemplate.prompt);
+      form.setValue("welcomeMessage", chatbotTemplate.welcomeMessage);
+      form.setValue("chatbotErrorMessage", chatbotTemplate.errorMessage);
+
+      // const modelId = models.find(
+      //   (m) => m.name === chatbotTemplate.defaultModel
+      // )?.id;
+      // if (modelId) {
+      //   form.setValue("modelId", modelId);
+      // }
+
+      // Trigger form validation after setting values
+      // form.trigger();
+    }
+
+    setSelectTemplate(templateId);
+  };
+
+  useEffect(() => {
+    applyTemplate(selectTemplate);
+  }, [selectTemplate]);
 
   async function getFiles() {
     const response = await fetch("/api/files", {
@@ -192,13 +218,30 @@ export function NewChatbotForm({
             <CardTitle>Create new Chatbot</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
+            <FormLabel htmlFor="name">Template</FormLabel>
+            <SelectUI onValueChange={(value) => setSelectTemplate(value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="select template" />
+              </SelectTrigger>
+              <SelectContent>
+                {TEMPLATES_LIST.map((template) => (
+                  <SelectItem key={template.label} value={template.value}>
+                    {template.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </SelectUI>
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="name">Display Name</FormLabel>
-                  <Input onChange={field.onChange} id="name" />
+                  <Input
+                    onChange={field.onChange}
+                    id="name"
+                    value={field.value}
+                  />
                   <FormDescription>
                     The name that will be displayed in the dashboard
                   </FormDescription>
@@ -233,7 +276,8 @@ export function NewChatbotForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Select Prompt</FormLabel>
-                  <PromptSelect
+                  <SelectUI
+                    disabled={selectTemplate !== "custom-prompt"}
                     onValueChange={(value) => {
                       field.onChange(value);
                       // Update the prompt field value based on the selected prompt
@@ -255,7 +299,7 @@ export function NewChatbotForm({
                         </SelectItem>
                       ))}
                     </SelectContent>
-                  </PromptSelect>
+                  </SelectUI>
                 </FormItem>
               )}
             />
