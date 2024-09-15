@@ -1,10 +1,11 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { siteConfig } from "@/config/site";
 
 export default function Chatbot() {
-  const customStyle = {
+  const customStyle: React.CSSProperties = {
     marginRight: "1rem",
     marginBottom: "6rem",
     display: "none",
@@ -22,7 +23,7 @@ export default function Chatbot() {
   };
 
   useEffect(() => {
-    window.addEventListener("message", function (event) {
+    const addMessage = (event: any) => {
       var iframe = document.getElementById("PlatformAI-chatbot-iframe");
       var buttonIframe = document.getElementById(
         "PlatformAI-chatbot-button-iframe"
@@ -72,8 +73,17 @@ export default function Chatbot() {
           // buttonIframe.contentWindow.postMessage("closeChat", "*");
         }
       }
+    };
+    window.addEventListener("message", function (event) {
+      addMessage(event);
     });
-  });
+
+    return () => {
+      window.removeEventListener("message", function (event) {
+        addMessage(event);
+      });
+    };
+  }, []);
 
   function Chatbox() {
     const params = useSearchParams();
@@ -84,14 +94,14 @@ export default function Chatbot() {
       return (
         <>
           <iframe
-            src={`/embed/clq6m06gc000114hm42s838g2/button?chatbox=false`}
+            src={`${siteConfig.url}/embed/cm13ho9jq0003h4s5gk1fahjz/button?chatbox=false`}
             scrolling="no"
             id="PlatformAI-chatbot-button-iframe"
-            className="fixed bottom-0 right-0 mb-4 z-50 flex items-end inline-block mr-4 w-14 h-14 border border-gray-300 rounded-full shadow-md"
+            className="fixed bottom-0 right-0 mb-4 z-50  bg-red-400 items-end inline-block mr-4 w-14 h-14 border border-gray-300 rounded-full shadow-md"
           ></iframe>
           <iframe
-            src={`/embed/clq6m06gc000114hm42s838g2/window?chatbox=false&withExitX=true`}
-            // style={customStyle}
+            src={`${siteConfig.url}/embed/cm13ho9jq0003h4s5gk1fahjz/window?chatbox=false&withExitX=true`}
+            style={customStyle}
             allowFullScreen
             className="z-50"
             id="PlatformAI-chatbot-iframe"
