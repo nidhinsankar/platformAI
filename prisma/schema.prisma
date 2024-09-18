@@ -204,7 +204,8 @@ model User {
   lemonSqueezySubscriptionId     String?
   lemonSqueezySubscriptionStatus String?
   lemonSqueezyPaymentSuccessId   String?       @unique @map("payment_sucess_id")
-  customers                      String[]
+  customerEmails                 String[]  
+  customers                      Customer[]   @relation("UserCustomers")   
   accounts                       Account[]
   Billings                       Billings?
   Campaign                       Campaign[]
@@ -282,6 +283,7 @@ model Customer {
   chatRoom  ChatRoom[]
   Domain    Domain?             @relation(fields: [domainId], references: [id], onDelete: Cascade)
   questions CustomerResponses[]
+  users     User[]             @relation("UserCustomers")
 }
 
 model Product {

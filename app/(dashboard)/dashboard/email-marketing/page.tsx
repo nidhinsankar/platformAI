@@ -1,12 +1,7 @@
-export default function EmailMarketingPage() {
-  return (
-    <div>
-      Email Marketing page
-      <ul>
-        <li>list of email from user</li>
-        <li>options to create campaign</li>
-        <li>listing the campaign</li>
-      </ul>
-    </div>
-  );
+import { MainDashboard } from "@/components/email-marketing/dashboard";
+import { getCurrentUser } from "@/lib/session";
+
+export default async function EmailMarketingPage() {
+  const session = await getCurrentUser();
+  return <MainDashboard session={session} />;
 }
