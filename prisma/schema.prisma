@@ -52,7 +52,6 @@ model Chatbot {
   createdAt                       DateTime                @default(now()) @map("created_at")
   openaiKey                       String
   modelId                         String?
-  selectedPrompt                  String?                 @default("custom-prompt")
   prompt                          String?
   welcomeMessage                  String
   chatbotErrorMessage             String                  @default("Oops! An error has occurred. If the issue persists, feel free to reach out to our support team for assistance. We're here to help!")
@@ -87,6 +86,7 @@ model Chatbot {
   bannedIps                       String[]                @default([])
   allowEveryone                   Boolean                 @default(true)
   allowedIpRanges                 String[]                @default([])
+  selectedPrompt                  String?                 @default("custom-prompt")
   ChatbotErrors                   ChatbotErrors[]
   ChatbotFiles                    ChatbotFiles[]
   ChatbotMessagesExport           ChatbotMessagesExport[]
@@ -189,35 +189,33 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-
-  accounts     Account[]
-  sessions     Session[]
-  Chatbot      Chatbot[]
-  Crawler      Crawler[]
-  OpenAIConfig OpenAIConfig[]
-  File         File[]
-
-  Message                  Message[]
-
-  lemonSqueezyPaymentSuccessId     String?  @unique @map(name: "payment_sucess_id")
-  lemonSqueezyPaymentInvoiceUrl    String?  @unique @map(name: "invoice_url")
-  lemonSqueezyPaymentTotal         String?  
-  lemonSqueezyCustomerId           String?
-  lemonSqueezySubscriptionId       String?
-  lemonSqueezySubscriptionStatus   String?
-  lemonSqueezyPaymentRenewal       DateTime?
-
-  inquiryEmailEnabled   Boolean    @default(true)
-  marketingEmailEnabled Boolean    @default(true)
-  Domain                Domain[]
-  Billings              Billings?
-  Campaign              Campaign[]
+  id                             String        @id @default(cuid())
+  name                           String?
+  email                          String?       @unique
+  emailVerified                  DateTime?
+  image                          String?
+  createdAt                      DateTime      @default(now()) @map("created_at")
+  inquiryEmailEnabled            Boolean       @default(true)
+  marketingEmailEnabled          Boolean       @default(true)
+  lemonSqueezyPaymentInvoiceUrl  String?       @unique @map("invoice_url")
+  lemonSqueezyCustomerId         String?
+  lemonSqueezyPaymentRenewal     DateTime?
+  lemonSqueezyPaymentTotal       String?
+  lemonSqueezySubscriptionId     String?
+  lemonSqueezySubscriptionStatus String?
+  lemonSqueezyPaymentSuccessId   String?       @unique @map("payment_sucess_id")
+  customerEmails                 String[]  
+  customers                      Customer[]   @relation("UserCustomers")   
+  accounts                       Account[]
+  Billings                       Billings?
+  Campaign                       Campaign[]
+  Domain                         Domain[]
+  OpenAIConfig                   OpenAIConfig?
+  sessions                       Session[]
+  Chatbot                        Chatbot[]
+  Crawler                        Crawler[]
+  File                           File[]
+  Message                        Message[]
 }
 
 model CustomerResponses {
@@ -285,6 +283,7 @@ model Customer {
   chatRoom  ChatRoom[]
   Domain    Domain?             @relation(fields: [domainId], references: [id], onDelete: Cascade)
   questions CustomerResponses[]
+  users     User[]             @relation("UserCustomers")
 }
 
 model Product {
