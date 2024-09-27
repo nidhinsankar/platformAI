@@ -43,15 +43,15 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
     // >
     <aside
       className={`
-    ${isOpen ? "w-[200px] px-3 py-4" : "w-[50px] px-1"}
-    hidden flex-col md:flex shadow-lg h-screen sticky top-0 transition-all duration-300 ease-in-out
+    ${isOpen ? "w-[200px] px-3 " : "w-[50px] px-2"}
+    hidden mx-auto flex-col items-center md:flex shadow-lg h-screen sticky top-0 transition-all duration-300 ease-in-out
   `}
     >
-      <nav className="flex flex-col justify-between h-full gap-2">
+      <nav className="flex flex-col justify-between h-full gap-4">
         <div>
           {isOpen ? (
             <div
-              className="flex justify-between my-4"
+              className="flex justify-between items-center my-6"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
@@ -65,7 +65,7 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
             </div>
           ) : (
             <div
-              className="flex items-center px-3 bg-grey-300 my-4 rounded-md"
+              className="flex items-center justify-between w-1/2 mx-auto my-6"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
