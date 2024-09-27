@@ -27,7 +27,7 @@ export const dashboardConfig: DashboardConfig = {
       title: "Email Marketing",
       href: "/dashboard/email-marketing",
       icon: "mail",
-      beta: true,
+      beta: false,
     },
     {
       title: "Crawlers",

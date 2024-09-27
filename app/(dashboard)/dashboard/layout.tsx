@@ -40,22 +40,23 @@ export default async function DashboardLayout({
 
   return (
     <Sidebar>
-      <div className="flex min-h-screen flex-col space-y-6">
-        <header className="sticky top-0 z-40 border-b bg-background">
-          <div className="container flex h-16 items-center justify-between py-4">
-            <MainNavDashboard items={dashboardConfig.mainNav} />
-            <UserAccountNav
-              user={{
-                name: user.name,
-                image: user.image,
-                email: user.email,
-              }}
-            />
-          </div>
-        </header>
-        {/* <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]"> */}
-        <DashboardNav items={dashboardConfig.sidebarNav}>
-          <main className="flex w-full flex-1 flex-col overflow-hidden">
+      {/* <> */}
+      <div className="flex gap-3 min-h-screen">
+        <DashboardNav items={dashboardConfig.sidebarNav} />
+        <div className="flex flex-1 flex-col ">
+          <header className="sticky top-0 z-40 border-b bg-background">
+            <div className="container flex h-16 items-center justify-between py-4">
+              <MainNavDashboard items={dashboardConfig.mainNav} />
+              <UserAccountNav
+                user={{
+                  name: user.name,
+                  image: user.image,
+                  email: user.email,
+                }}
+              />
+            </div>
+          </header>
+          <main className="flex-1 overflow-auto p-6">
             <Dialog defaultOpen={!openAIKey}>
               <DialogContent>
                 <DialogHeader>
@@ -80,10 +81,59 @@ export default async function DashboardLayout({
             </Dialog>
             {children}
           </main>
-        </DashboardNav>
-        {/* </div>  */}
+        </div>
       </div>
-      <SiteFooter simpleFooter={true} />
+      {/* <SiteFooter simpleFooter={true} /> */}
+      {/* </> */}
     </Sidebar>
   );
 }
+
+// {/* <Sidebar>
+// {/* <> */}
+// <div className="flex min-h-screen flex-col space-y-6">
+//   <header className="sticky top-0 z-40 border-b bg-background">
+//     <div className="container flex h-16 items-center justify-between py-4">
+//       <MainNavDashboard items={dashboardConfig.mainNav} />
+//       <UserAccountNav
+//         user={{
+//           name: user.name,
+//           image: user.image,
+//           email: user.email,
+//         }}
+//       />
+//     </div>
+//   </header>
+//   {/* <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]"> */}
+//   <DashboardNav items={dashboardConfig.sidebarNav}>
+//     <main className="flex w-full flex-1 flex-col overflow-hidden">
+//       <Dialog defaultOpen={!openAIKey}>
+//         <DialogContent>
+//           <DialogHeader>
+//             <DialogTitle>
+//               <div className="flex justify-center">
+//                 <Image
+//                   src="/openai-logo.sv"
+//                   alt="OpenAI logo"
+//                   width={120}
+//                   height={120}
+//                 />
+//               </div>
+//               <div className="flex justify-center pt-4">
+//                 Before we start, let&apos;s configure OpenAI! 🚀
+//               </div>
+//             </DialogTitle>
+//             <div className="">
+//               <OpenAIForm className="border-0 shadow-none" user={user} />
+//             </div>
+//           </DialogHeader>
+//         </DialogContent>
+//       </Dialog>
+//       {children}
+//     </main>
+//   </DashboardNav>
+//   {/* </div>  */}
+// </div>
+// <SiteFooter simpleFooter={true} />
+// {/* </> */}
+// </Sidebar> */}
