@@ -89,14 +89,14 @@ export function MainNavDashboard({ items, children }: MainNavMarketingProps) {
 
   return (
     <div className="flex gap-6 md:gap-10 w-full">
-      <div className="flex justify-center items-center gap-2">
+      {/* <div className="flex justify-center items-center gap-2">
         <Icons.bot />
         <h2 className="hidden items-center space-x-2 md:flex">
           <span className="hidden font-bold sm:inline-block">
             {siteConfig.name}
           </span>
         </h2>
-      </div>
+      </div> */}
       {items?.length ? (
         <nav className="hidden gap-6 md:flex ">
           {items?.map((item, index) => (

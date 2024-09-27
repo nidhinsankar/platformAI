@@ -17,6 +17,7 @@ import { UpgradePlanButton } from "./upgrade-plan-button";
 import { useSidebarContext } from "@/context/sidebar-context";
 import React, { useState } from "react";
 import { Badge } from "./ui/badge";
+import { siteConfig } from "@/config/site";
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
@@ -47,7 +48,7 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
     hidden mx-auto flex-col items-center md:flex shadow-lg h-screen sticky top-0 transition-all duration-300 ease-in-out
   `}
     >
-      <nav className="flex flex-col justify-between h-full gap-4">
+      <nav className="flex flex-col justify-between h-full">
         <div>
           {isOpen ? (
             <div
@@ -55,7 +56,10 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
-              <Icons.bot />
+              <div className="flex items-center space-x-2">
+                <Icons.bot className="w-5 h-5" />
+                <span className="font-bold">{siteConfig.name}</span>
+              </div>
               {isHovered && (
                 <Icons.rightpanelclose
                   onClick={() => setIsOpen(!isOpen)}
