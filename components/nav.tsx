@@ -44,8 +44,8 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
     // >
     <aside
       className={`
-    ${isOpen ? "w-[200px] px-3 " : "w-[50px] px-2"}
-    hidden mx-auto flex-col items-center md:flex shadow-lg h-screen sticky top-0 transition-all duration-300 ease-in-out
+    ${isOpen ? "w-[200px] px-3 " : "w-[70px] "}
+    hidden mx-auto flex-col items-center bg-gray-100 md:flex shadow-lg h-screen sticky top-0 transition-all duration-300 ease-in-out
   `}
     >
       <nav className="flex flex-col justify-between h-full">
@@ -69,7 +69,7 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
             </div>
           ) : (
             <div
-              className="flex items-center justify-between w-1/2 mx-auto my-6"
+              className="flex items-center justify-between w-1/2 mx-auto my-6 bg-white px-0.5 rounded-full"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
@@ -91,8 +91,8 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
                 <Link key={index} href={item.disabled ? "/" : item.href}>
                   <span
                     className={cn(
-                      "group flex items-center rounded-md px-3 py-2 relative text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-                      path === item.href ? "bg-accent" : "transparent",
+                      "group flex items-center my-2 rounded-md px-3 py-2 relative text-sm font-medium hover:bg-gray-200 hover:text-accent-foreground",
+                      path === item.href ? "bg-gray-300" : "transparent",
                       item.disabled && "cursor-not-allowed opacity-80"
                     )}
                   >
