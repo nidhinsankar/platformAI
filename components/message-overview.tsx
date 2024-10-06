@@ -54,7 +54,7 @@ export function MessagesOverview({ items }: OverviewProps) {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <AreaChart
-        data={DATA}
+        data={items}
         margin={{ top: 50, right: 30, left: 30, bottom: 5 }}
       >
         <defs>

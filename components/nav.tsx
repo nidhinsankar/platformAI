@@ -92,7 +92,9 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
                   <span
                     className={cn(
                       "group flex items-center my-2 rounded-md px-3 py-2 relative text-sm font-medium hover:bg-gray-200 hover:text-accent-foreground",
-                      path === item.href ? "bg-gray-300" : "transparent",
+                      path === item.href
+                        ? "bg-white  text-accent-foreground"
+                        : "transparent",
                       item.disabled && "cursor-not-allowed opacity-80"
                     )}
                   >

@@ -58,7 +58,7 @@ export default function ChatbotButton({
 
   return (
     <div
-      className="absolute top-0 left-0 w-14 h-14 rounded-full cursor-pointer backface-hidden bg-red-500 overflow-hidden"
+      className="absolute top-0 left-0 w-14 h-14 rounded-full cursor-pointer backface-hidden bg-[#FF8343] overflow-hidden"
       //   style={{ background: backgroundColor }}
     >
       <button
