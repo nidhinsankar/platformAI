@@ -18,6 +18,8 @@ import { OpenAIForm } from "@/components/openai-config-form";
 import Image from "next/image";
 import { useState } from "react";
 import { Sidebar } from "@/context/sidebar-context";
+import { ChatbotCreateButton } from "@/components/chatbot-create-button";
+import CreateButtonNav from "@/components/create-button-nav";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -42,18 +44,27 @@ export default async function DashboardLayout({
     <Sidebar>
       {/* <> */}
       <div className="flex gap-3 min-h-screen">
-        <DashboardNav items={dashboardConfig.sidebarNav} />
+        <DashboardNav
+          items={dashboardConfig.sidebarNav}
+          user={{
+            name: user.name,
+            image: user.image,
+            email: user.email,
+          }}
+        />
         <div className="flex flex-1 flex-col ">
           <header className="sticky top-0 z-40 border-b bg-background">
             <div className="container flex h-16 items-center justify-between py-4">
               <MainNavDashboard items={dashboardConfig.mainNav} />
-              <UserAccountNav
+              {/* <UserAccountNav
                 user={{
                   name: user.name,
                   image: user.image,
                   email: user.email,
                 }}
-              />
+              /> */}
+              <CreateButtonNav />
+              {/* <ChatbotCreateButton /> */}
             </div>
           </header>
           <main className="flex-1 overflow-auto p-6">

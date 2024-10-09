@@ -18,13 +18,16 @@ import { useSidebarContext } from "@/context/sidebar-context";
 import React, { useState } from "react";
 import { Badge } from "./ui/badge";
 import { siteConfig } from "@/config/site";
+import { UserAccountNav } from "./user-account-nav";
+import { User } from "next-auth";
 
 interface DashboardNavProps {
   items: SidebarNavItem[];
   children?: React.ReactNode;
+  user: Pick<User, "name" | "image" | "email">;
 }
 
-export function DashboardNav({ items, children }: DashboardNavProps) {
+export function DashboardNav({ items, children, user }: DashboardNavProps) {
   const path = usePathname();
 
   const { isOpen, setIsOpen } = useSidebarContext();
@@ -44,8 +47,8 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
     // >
     <aside
       className={`
-    ${isOpen ? "w-[200px] px-3 " : "w-[70px] "}
-    hidden mx-auto flex-col items-center bg-gray-100 md:flex shadow-lg h-screen sticky top-0 transition-all duration-300 ease-in-out
+    ${isOpen ? "w-[250px] px-3 " : "w-[70px] "}
+    hidden mx-auto flex-col items-center bg-gray-100 md:flex shadow-lg h-screen overflow-y-auto sticky top-0 transition-all duration-300 ease-in-out
   `}
     >
       <nav className="flex flex-col justify-between h-full">
@@ -91,9 +94,9 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
                 <Link key={index} href={item.disabled ? "/" : item.href}>
                   <span
                     className={cn(
-                      "group flex items-center my-2 rounded-md px-3 py-2 relative text-sm font-medium hover:bg-gray-200 hover:text-accent-foreground",
+                      "group flex items-center my-2 rounded-full px-3 py-2 relative text-sm font-medium hover:bg-black/90 hover:text-white",
                       path === item.href
-                        ? "bg-white  text-accent-foreground"
+                        ? "shadow-lg bg-black/95  text-white"
                         : "transparent",
                       item.disabled && "cursor-not-allowed opacity-80"
                     )}
@@ -135,6 +138,17 @@ export function DashboardNav({ items, children }: DashboardNavProps) {
             </CardContent>
           </Card>
         )}
+        <div className="my-5 flex items-center border-t-2">
+          <UserAccountNav
+            user={{
+              name: user.name,
+              image: user.image,
+              email: user.email,
+            }}
+          >
+            {user.name && isOpen && <p className="font-medium">{user.name}</p>}
+          </UserAccountNav>
+        </div>
       </nav>
     </aside>
     // {children}

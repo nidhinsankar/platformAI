@@ -65,7 +65,6 @@ export function ChatbotCreateButton({
 
   return (
     <div className="flex items-center gap-2 sm:gap-4">
-      <TooltipDemo />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button

@@ -5,7 +5,10 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
 import { DashboardHeader } from "@/components/header";
 import { DashboardShell } from "@/components/shell";
-import { ChatbotCreateButton } from "@/components/chatbot-create-button";
+import {
+  ChatbotCreateButton,
+  TooltipDemo,
+} from "@/components/chatbot-create-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/config/site";
@@ -143,6 +146,7 @@ export default async function DashboardPage() {
         heading="Dashboard"
         text="Welcome to Your Chatbot Dashboard"
       >
+        <TooltipDemo />
         <ChatbotCreateButton />
       </DashboardHeader>
       <div>

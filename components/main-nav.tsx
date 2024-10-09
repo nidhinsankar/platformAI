@@ -88,7 +88,7 @@ export function MainNavDashboard({ items, children }: MainNavMarketingProps) {
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
   return (
-    <div className="flex gap-6 md:gap-10 w-full">
+    <div className="flex gap-6 md:gap-7">
       {/* <div className="flex justify-center items-center gap-2">
         <Icons.bot />
         <h2 className="hidden items-center space-x-2 md:flex">
