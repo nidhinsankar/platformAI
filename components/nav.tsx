@@ -47,7 +47,7 @@ export function DashboardNav({ items, children, user }: DashboardNavProps) {
     // >
     <aside
       className={`
-    ${isOpen ? "w-[250px] px-3 " : "w-[70px] "}
+    ${isOpen ? "w-[250px] px-3" : "w-[70px] "}
     hidden mx-auto flex-col items-center bg-gray-100 md:flex shadow-lg h-screen overflow-y-auto sticky top-0 transition-all duration-300 ease-in-out
   `}
     >
@@ -138,7 +138,7 @@ export function DashboardNav({ items, children, user }: DashboardNavProps) {
             </CardContent>
           </Card>
         )}
-        <div className="my-5 flex items-center border-t-2">
+        <div className="my-5 flex   items-center border-t-2">
           <UserAccountNav
             user={{
               name: user.name,
@@ -146,7 +146,9 @@ export function DashboardNav({ items, children, user }: DashboardNavProps) {
               email: user.email,
             }}
           >
-            {user.name && isOpen && <p className="font-medium">{user.name}</p>}
+            {user.name && isOpen && (
+              <p className="font-medium capitalize">{user.name}</p>
+            )}
           </UserAccountNav>
         </div>
       </nav>
